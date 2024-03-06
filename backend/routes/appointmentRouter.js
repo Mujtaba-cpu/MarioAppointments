@@ -6,15 +6,15 @@ const appointmentController = require('../controllers/appointmentController');
 router.get('/', appointmentController.getAllAppointments);
 
 // Get appointment by ID
-router.get('/:serialNumber', appointmentController.getAppointmentBySerialNumber);
+router.get('/:id', appointmentController.getAppointmentById);
 
 // Create a new appointment
 router.post('/', appointmentController.createAppointment);
 
 // Update an existing appointment
-router.patch('/:serialNumber', appointmentController.updateAppointment);
+router.patch('/:id', appointmentController.updateAppointment);
 
 // Delete an appointment
-router.delete('/:serialNumber', appointmentController.deleteAppointment);
+router.delete('/:id', appointmentController.deleteAppointment);
 
 module.exports = router;

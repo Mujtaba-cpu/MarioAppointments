@@ -1,0 +1,136 @@
+import { useState, useEffect } from 'react';
+
+const AppointmentForm = ({ updateAppointments }) => {
+    const [numberOfPassengers, setNumberOfPassengers] = useState('');
+    const [isReturn, setIsReturn] = useState(false);
+    const [pickupTime, setPickupTime] = useState('');
+    const [pickupLocation, setPickupLocation] = useState('');
+    const [destination, setDestination] = useState('');
+    const [returnTime, setReturnTime] = useState('');
+    const [returnLocation, setReturnLocation] = useState('');
+    const [returnDestination, setReturnDestination] = useState('');
+    const [contactNumber, setContactNumber] = useState('');
+    const [error, setError] = useState(null);
+    const [successMessage, setSuccessMessage] = useState('');
+    const [emptyFields, setEmptyFields] = useState([]);
+    const [searchResults, setSearchResults] = useState([]);
+
+    useEffect(() => {
+        // Fetch search results based on pickupLocation
+        const fetchSearchResults = async () => {
+            try {
+                const response = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${pickupLocation}`);
+                const data = await response.json();
+                setSearchResults(data);
+            } catch (error) {
+                console.error('Error fetching search results:', error);
+            }
+        };
+
+        if (pickupLocation) {
+            fetchSearchResults();
+        } else {
+            setSearchResults([]);
+        }
+    }, [pickupLocation]);
+
+    const handlePassengerChange = (e) => {
+        const inputValue = e.target.value;
+        const newNumberOfPassengers = inputValue < 0 ? 0 : inputValue;
+        setNumberOfPassengers(newNumberOfPassengers);
+    };
+
+    const handleIsReturnChange = (e) => {
+        setIsReturn(e.target.checked);
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        console.log('pickupTime', pickupTime);
+        const appointment = { numberOfPassengers, isReturn, pickupTime, pickupLocation, destination, returnTime, returnLocation, returnDestination, contactNumber };
+
+        const response = await fetch('http://localhost:5000/appointments', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(appointment),
+        });
+        const json = await response.json();
+        if (!response.ok) {
+            setError(json.error);
+            setSuccessMessage('');
+            setEmptyFields(json.emptyFields);
+        }
+        if (response.ok) {
+            setError(null);
+            setEmptyFields([]);
+            setNumberOfPassengers('');
+            setIsReturn(false);
+            setPickupTime('');
+            setPickupLocation('');
+            setDestination('');
+            setReturnTime('');
+            setReturnLocation('');
+            setReturnDestination('');
+            setContactNumber('');
+            setSuccessMessage('Appointment created successfully');
+            updateAppointments();
+            setTimeout(() => {
+                setSuccessMessage('');
+            }, 5000);
+        }
+    };
+
+    return (
+        <form className='create' onSubmit={handleSubmit}>
+            <h3>Create a new appointment</h3>
+
+            <label>Number of Passengers</label>
+            <input type='number' value={numberOfPassengers} onChange={handlePassengerChange} required min="0"
+                className={(emptyFields && emptyFields.includes('load')) ? 'error' : ''}/>
+
+            <label>Pickup Time</label>
+            <input type='datetime-local' value={pickupTime} onChange={(e) => setPickupTime(e.target.value)} required />
+
+            <label>Pickup Location</label>
+            <input type='text' value={pickupLocation} onChange={(e) => setPickupLocation(e.target.value)} required />
+
+            {searchResults.length > 0 && (
+                <select  onChange={(e) => setPickupLocation(e.target.value)}>
+                    {searchResults.map((result) => (
+                        <option key={result.place_id} value={result.display_name}>{result.display_name}</option>
+                    ))}
+                </select>
+            )}
+
+            <label>Destination</label>
+            <input type='text' value={destination} onChange={(e) => setDestination(e.target.value)} required />
+
+            <label>Contact Number</label>
+            <input type='text' value={contactNumber} onChange={(e) => setContactNumber(e.target.value)} required />
+            <label>Is Return</label>
+            <input label='yes/no' type='checkbox' checked={isReturn} onChange={handleIsReturnChange} />
+            {/* <span>{isReturn ? 'Yes' : 'No'}</span> */}
+
+            {isReturn && (
+                <>
+                    <label>Return Time</label>
+                    <input type='datetime-local' value={returnTime} onChange={(e) => setReturnTime(e.target.value)} required />
+
+                    <label>Return Location</label>
+                    <input type='text' value={returnLocation} onChange={(e) => setReturnLocation(e.target.value)} required />
+
+                    <label>Return Destination</label>
+                    <input type='text' value={returnDestination} onChange={(e) => setReturnDestination(e.target.value)} required />
+                </>
+            )}
+
+            <button>Add Appointment</button>
+            {error && <div className='error'>{error}</div>}
+            {successMessage && <div className='success'>{successMessage}</div>}
+        </form>
+    );
+};
+
+export default AppointmentForm;

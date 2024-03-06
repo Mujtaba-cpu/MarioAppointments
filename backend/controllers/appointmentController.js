@@ -1,91 +1,108 @@
 const Appointment = require('../models/appointmentModel');
+const mongoose = require('mongoose');
 
-// Get all appointments
-const getAllAppointments = async (req, res) => {
-  try {
-    const appointments = await Appointment.find();
-    res.json(appointments);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
+const appointmentController = {
+  //get all appointments
+  async getAllAppointments(req, res) {
+    const appointments = await Appointment.find({}).sort({ createdAt: -1 });
+    res.status(200).json({ appointments });
+  },
+
+  //get a single appointment by Id
+  async getAppointmentById(req, res) {
+    const id = req.params.id;
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({ message: 'Invalid Id' });
+    }
+    const appointment = await Appointment.findOneById(id);
+
+    if (!appointment) {
+      return res.status(404).json({ message: 'Appointment not found' });
+    }
+
+    res.status(200).json({ appointment });
+  },
+
+  //create new appointment
+  async createAppointment(req, res) {
+    const { numberOfPassengers, isReturn, pickupTime, pickupLocation, destination, returnTime, returnLocation, returnDestination, contactNumber } = req.body;
+
+    let emptyFields = [];
+    if (typeof isReturn === 'undefined') emptyFields.push('isReturn');
+    if (!numberOfPassengers) emptyFields.push('numberOfPassengers');
+    if (!pickupTime) emptyFields.push('pickupTime');
+    if (!pickupLocation) emptyFields.push('pickupLocation');
+    if (!destination) emptyFields.push('destination');
+    if (isReturn && !returnTime) emptyFields.push('returnTime');
+    if (isReturn && !returnLocation) emptyFields.push('returnLocation');
+    if (isReturn && !returnDestination) emptyFields.push('returnDestination');
+    if (!contactNumber) emptyFields.push('contactNumber');
+    if (emptyFields.length > 0) {
+      return res.status(400).json({ message: `The following fields are empty: ${emptyFields.join(', ')}` });
+    }
+
+    try {
+      const appointment = await Appointment.create({ numberOfPassengers, isReturn, pickupTime, pickupLocation, destination, returnTime, returnLocation, returnDestination, contactNumber });
+      res.status(200).json({ appointment });
+    } catch (err) {
+      res.status(400).json({ error: err.message });
+    }
+  },
+
+  //update appointment
+  async updateAppointment(req, res) {
+    const id = req.params.id;
+    
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({ message: 'Invalid Id' });
+    }
+
+    const appointment = await Appointment.findByIdAndUpdate(id , req.body, { new: true });
+
+    if (!appointment) {
+      return res.status(404).json({ message: 'Appointment not found' });
+    }
+
+    try {
+      appointment.numberOfPassengers = req.body.numberOfPassengers;
+      appointment.isReturn = req.body.isReturn;
+      appointment.pickupTime = req.body.pickupTime;
+      appointment.pickupLocation = req.body.pickupLocation;
+      appointment.destination = req.body.destination;
+      appointment.returnTime = req.body.returnTime;
+      appointment.returnLocation = req.body.returnLocation;
+      appointment.returnDestination = req.body.returnDestination;
+      appointment.contactNumber = req.body.contactNumber;
+
+      await appointment.save();
+      res.status(200).json({ appointment });
+    } catch (err) {
+      res.status(400).json({ error: err.message });
+    }
+  },
+
+  //delete appointment
+  async deleteAppointment(req, res) {
+    const id = req.params.id;
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({ message: 'Invalid serial number' });
+    }
+
+    const appointment = await Appointment.findByIdAndDelete(id);
+
+    if (!appointment) {
+      return res.status(404).json({ message: 'Appointment not found' });
+    }
+
+    res.status(200).json({ appointment});
   }
-};
+}
 
-// Create a new appointment
-const createAppointment = async (req, res) => {
-    const appointmentData = req.body; // Assuming appointment data is sent in the request body
-  
-    try {
-      const appointment = new Appointment(appointmentData);
-      const newAppointment = await appointment.save();
-      res.status(201).json(newAppointment);
-    } catch (error) {
-      res.status(400).json({ message: error.message });
-    }
-  };
-  
-
-// Get a single appointment by ID
-const getAppointmentBySerialNumber = async (req, res) => {
-    try {
-      const appointment = await Appointment.findOne({ serialNumber: req.params.serialNumber });
-      if (appointment) {
-        res.json(appointment);
-      } else {
-        res.status(404).json({ message: 'Appointment not found' + req.params.serialNumber});
-      }
-    } catch (error) {
-      res.status(500).json({ message: error.message });
-    }
-  };
   
   
 
-// Update an appointment by ID
-const updateAppointment = async (req, res) => {
-    try {
-      const appointment = await Appointment.findOne({ serialNumber: req.params.serialNumber });
-      if (appointment) {
-        // Update appointment properties here based on request body
-        appointment.numberOfPassengers = req.body.numberOfPassengers;
-        appointment.isReturn = req.body.isReturn;
-        appointment.pickupTime = req.body.pickupTime;
-        appointment.pickupLocation = req.body.pickupLocation;
-        appointment.destination = req.body.destination;
-        appointment.returnTime = req.body.returnTime;
-        appointment.returnLocation = req.body.returnLocation;
-        appointment.returnDestination = req.body.returnDestination;
-        
-        const updatedAppointment = await appointment.save();
-        res.json(updatedAppointment);
-      } else {
-        res.status(404).json({ message: 'Appointment not found' });
-      }
-    } catch (error) {
-      res.status(500).json({ message: error.message });
-    }
-  };
-  
-  
 
-// Delete an appointment by ID
-const deleteAppointment = async (req, res) => {
-    try {
-      const appointment = await Appointment.findOneAndDelete({ serialNumber: req.params.serialNumber });
-      if (appointment) {
-        res.json({ message: 'Appointment deleted' });
-      } else {
-        res.status(404).json({ message: 'Appointment not found' });
-      }
-    } catch (error) {
-      res.status(500).json({ message: error.message });
-    }
-  };
-  
-
-module.exports = {
-  getAllAppointments,
-  createAppointment,
-  getAppointmentBySerialNumber,
-  updateAppointment,
-  deleteAppointment,
-};
+  module.exports = appointmentController;

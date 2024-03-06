@@ -2,9 +2,11 @@ require('dotenv').config()
 const express = require ('express');
 const appointmentRoutes = require ('./routes/appointmentRouter');
 const mongoose = require ('mongoose');
+const cors = require ('cors');
 const app = express();
 
 // middleware
+app.use(cors())
 app.use(express.json())  // parse json bodies into JS objects
 app.use((req, res, next) => {
     console.log(req.path, req.method)

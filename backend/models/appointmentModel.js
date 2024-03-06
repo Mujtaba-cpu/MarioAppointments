@@ -1,14 +1,6 @@
 const mongoose = require ('mongoose')
 
 const appointmentSchema = new mongoose.Schema({
-    serialNumber: {
-      type: Number,
-      unique: true,
-      required: true,
-      default: function () {
-        return Math.floor(Math.random() * 1000000);
-      },
-    },
     numberOfPassengers: {
       type: Number,
       required: true,
