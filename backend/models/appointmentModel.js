@@ -35,13 +35,6 @@ const appointmentSchema = new mongoose.Schema({
     },
     returnTime: {
       type: String,
-      validate: {
-        validator: function(value) {
-          // Check if the value is a valid time format
-          return moment(value, 'HH:mm', true).isValid();
-        },
-        message: props => `${props.value} is not a valid time format (HH:mm)`,
-      },
       required: function () {
         return this.isReturn;
       },

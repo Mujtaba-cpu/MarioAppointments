@@ -55,11 +55,14 @@ const Search = () => {
 
 
     return (
-        <div>
-            <label>Start Date:</label>
+        <div className='search-box'>
+            <div className='search-form-container'>
+                <label>Start Date:</label>
             <input type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)} />
             <label>End Date:</label>
             <input type="date" value={endDate} onChange={(e) => setEndDate(e.target.value)} />
+            </div>
+            
             <button style={{ marginRight: '10px', opacity: (!startDate || !endDate) ? '0.5' : '1' }} onClick={fetchAppointmentsByDate} disabled={!startDate || !endDate}>Fetch Appointments</button>
             <button onClick={fetchAppointments}>View All</button>
             <div className='workouts'>

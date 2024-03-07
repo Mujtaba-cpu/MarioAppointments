@@ -1,5 +1,5 @@
 import React from "react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Modal from 'react-modal';
 
 const AppointmentDetails = ({ appointment, updateAppointments }) => {
@@ -184,7 +184,7 @@ const AppointmentDetails = ({ appointment, updateAppointments }) => {
                 </div>
             )}
             {editMode ? (
-                <div>
+                <div className="edit-form container">
                     <form className="create" onSubmit={handleSubmit}>
                         <h3>Edit Appointment</h3>
 
