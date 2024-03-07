@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import AppointmentDetails from "../components/AppointmentDetails";
 
@@ -6,7 +7,7 @@ const Home = () => {
     const [appointments, setAppointments] = useState(null);
 
     const fetchAppointments = async () => {
-        const response = await fetch('http://localhost:5000/appointments');
+        const response = await fetch('/appointments');
         const json = await response.json();
         if (response.ok) {
             if (json.appointments && Array.isArray(json.appointments)) {
@@ -27,6 +28,7 @@ const Home = () => {
     return (
         <div className="home">
             <div className="workouts">
+            <button onClick={() => window.location.href = '/search'}>Search by Date</button>
                 {appointments &&
                     appointments.map(appointment => (
                         <AppointmentDetails key={appointment._id} appointment={appointment} updateAppointments={updateAppointments} />

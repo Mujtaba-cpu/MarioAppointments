@@ -11,12 +11,17 @@ const Login = () => {
     const [icon, setIcon] = useState(eyeOff);
     const [error, setError] = useState(null);
     const [successMessage, setSuccessMessage] = useState('');
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
 
+    const isLogged = () => {
+        setIsLoggedIn(true);
+    };
     const handleLogin = () => {
         if (username === 'admin' && password === 'CSCuser1?123') {
             // Login successful
             window.location.href = '/main'; // Replace '/some-page' with the desired page URL
             setSuccessMessage('Login successful');
+            isLogged();
         } else {
             setError('Invalid username or password');
             setTimeout(() => {

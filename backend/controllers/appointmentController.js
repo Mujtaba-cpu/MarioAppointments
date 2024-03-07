@@ -1,6 +1,7 @@
 const Appointment = require('../models/appointmentModel');
 const mongoose = require('mongoose');
 
+
 const appointmentController = {
   //get all appointments
   async getAllAppointments(req, res) {
@@ -24,13 +25,32 @@ const appointmentController = {
     res.status(200).json({ appointment });
   },
 
+  //get appointments from a specific date to another date
+  async getAppointmentsByDate(req, res) {
+    const { startDate, endDate } = req.body;
+    
+    try {
+        const appointments = await Appointment.find({
+            pickupDate: { $gte: startDate, $lte: endDate }
+        }).sort({ pickupDate: -1 });
+
+        res.status(200).json({ appointments });
+    } catch (err) {
+        res.status(400).json({ error: err.message });
+    }
+},
+
+  
+
   //create new appointment
   async createAppointment(req, res) {
-    const { numberOfPassengers, isReturn, pickupTime, pickupLocation, destination, returnTime, returnLocation, returnDestination, contactNumber } = req.body;
+    const { numberOfPassengers, isReturn, pickupDate, pickupTime, pickupLocation, destination, returnTime, returnLocation, returnDestination, contactNumber, adInfo} = req.body;
+
 
     let emptyFields = [];
     if (typeof isReturn === 'undefined') emptyFields.push('isReturn');
     if (!numberOfPassengers) emptyFields.push('numberOfPassengers');
+    if (!pickupDate) emptyFields.push('pickupDate');
     if (!pickupTime) emptyFields.push('pickupTime');
     if (!pickupLocation) emptyFields.push('pickupLocation');
     if (!destination) emptyFields.push('destination');
@@ -38,12 +58,13 @@ const appointmentController = {
     if (isReturn && !returnLocation) emptyFields.push('returnLocation');
     if (isReturn && !returnDestination) emptyFields.push('returnDestination');
     if (!contactNumber) emptyFields.push('contactNumber');
+    if (typeof adInfo === 'undefined' && adInfo === '') emptyFields.push('adInfo');
     if (emptyFields.length > 0) {
       return res.status(400).json({ message: `The following fields are empty: ${emptyFields.join(', ')}` });
     }
 
     try {
-      const appointment = await Appointment.create({ numberOfPassengers, isReturn, pickupTime, pickupLocation, destination, returnTime, returnLocation, returnDestination, contactNumber });
+      const appointment = await Appointment.create({ numberOfPassengers, isReturn, pickupDate, pickupTime, pickupLocation, destination, returnTime, returnLocation, returnDestination, contactNumber, adInfo });
       res.status(200).json({ appointment });
     } catch (err) {
       res.status(400).json({ error: err.message });
@@ -53,6 +74,7 @@ const appointmentController = {
   //update appointment
   async updateAppointment(req, res) {
     const id = req.params.id;
+    
     
 
     if (!mongoose.Types.ObjectId.isValid(id)) {
@@ -68,6 +90,7 @@ const appointmentController = {
     try {
       appointment.numberOfPassengers = req.body.numberOfPassengers;
       appointment.isReturn = req.body.isReturn;
+      appointment.pickupDate = req.body.pickupDate;
       appointment.pickupTime = req.body.pickupTime;
       appointment.pickupLocation = req.body.pickupLocation;
       appointment.destination = req.body.destination;
@@ -75,6 +98,7 @@ const appointmentController = {
       appointment.returnLocation = req.body.returnLocation;
       appointment.returnDestination = req.body.returnDestination;
       appointment.contactNumber = req.body.contactNumber;
+      appointment.adInfo = req.body.adInfo;
 
       await appointment.save();
       res.status(200).json({ appointment });

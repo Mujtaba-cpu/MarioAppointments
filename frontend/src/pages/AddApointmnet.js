@@ -5,7 +5,7 @@ import { useState } from "react";
 const AddAppointment = () => {
     const [appointments, setAppointments] = useState(null);
     const fetchAppointments = async () => {
-        const response = await fetch('http://localhost:5000/appointments');
+        const response = await fetch('/appointments');
         const json = await response.json();
         if (response.ok) {
             if (json.appointments && Array.isArray(json.appointments)) {

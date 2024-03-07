@@ -19,6 +19,7 @@ app.get('/', (req, res) => {
 })
 app.use('/appointments', appointmentRoutes)
 app.use('/appointments/:id', appointmentRoutes)
+app.use('appointments/date', appointmentRoutes)
 
 
 // connect to mongodb & listen for requests

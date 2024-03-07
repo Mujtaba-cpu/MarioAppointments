@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 const AppointmentForm = ({ updateAppointments }) => {
     const [numberOfPassengers, setNumberOfPassengers] = useState('');
     const [isReturn, setIsReturn] = useState(false);
+    const [pickupDate, setPickupDate] = useState('');
     const [pickupTime, setPickupTime] = useState('');
     const [pickupLocation, setPickupLocation] = useState('');
     const [destination, setDestination] = useState('');
@@ -10,6 +11,7 @@ const AppointmentForm = ({ updateAppointments }) => {
     const [returnLocation, setReturnLocation] = useState('');
     const [returnDestination, setReturnDestination] = useState('');
     const [contactNumber, setContactNumber] = useState('');
+    const [adInfo, setAdInfo] = useState('');
     const [error, setError] = useState(null);
     const [successMessage, setSuccessMessage] = useState('');
     const [emptyFields, setEmptyFields] = useState([]);
@@ -47,9 +49,9 @@ const AppointmentForm = ({ updateAppointments }) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         console.log('pickupTime', pickupTime);
-        const appointment = { numberOfPassengers, isReturn, pickupTime, pickupLocation, destination, returnTime, returnLocation, returnDestination, contactNumber };
+        const appointment = { numberOfPassengers, isReturn, pickupDate, pickupTime, pickupLocation, destination, returnTime, returnLocation, returnDestination, contactNumber, adInfo };
 
-        const response = await fetch('http://localhost:5000/appointments', {
+        const response = await fetch('/appointments', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -67,6 +69,7 @@ const AppointmentForm = ({ updateAppointments }) => {
             setEmptyFields([]);
             setNumberOfPassengers('');
             setIsReturn(false);
+            setPickupDate('');
             setPickupTime('');
             setPickupLocation('');
             setDestination('');
@@ -74,6 +77,7 @@ const AppointmentForm = ({ updateAppointments }) => {
             setReturnLocation('');
             setReturnDestination('');
             setContactNumber('');
+            setAdInfo('');
             setSuccessMessage('Appointment created successfully');
             updateAppointments();
             setTimeout(() => {
@@ -88,16 +92,19 @@ const AppointmentForm = ({ updateAppointments }) => {
 
             <label>Number of Passengers</label>
             <input type='number' value={numberOfPassengers} onChange={handlePassengerChange} required min="0"
-                className={(emptyFields && emptyFields.includes('load')) ? 'error' : ''}/>
+                className={(emptyFields && emptyFields.includes('load')) ? 'error' : ''} />
+
+            <label>Pickup Date</label>
+            <input type='date' value={pickupDate} onChange={(e) => setPickupDate(e.target.value)} required />
 
             <label>Pickup Time</label>
-            <input type='datetime-local' value={pickupTime} onChange={(e) => setPickupTime(e.target.value)} required />
+            <input type='time' value={pickupTime} onChange={(e) => setPickupTime(e.target.value)} required />
 
             <label>Pickup Location</label>
             <input type='text' value={pickupLocation} onChange={(e) => setPickupLocation(e.target.value)} required />
 
             {searchResults.length > 0 && (
-                <select  onChange={(e) => setPickupLocation(e.target.value)}>
+                <select onChange={(e) => setPickupLocation(e.target.value)}>
                     {searchResults.map((result) => (
                         <option key={result.place_id} value={result.display_name}>{result.display_name}</option>
                     ))}
@@ -107,8 +114,17 @@ const AppointmentForm = ({ updateAppointments }) => {
             <label>Destination</label>
             <input type='text' value={destination} onChange={(e) => setDestination(e.target.value)} required />
 
+            {searchResults.length > 0 && (
+                <select onChange={(e) => setDestination(e.target.value)}>
+                    {searchResults.map((result) => (
+                        <option key={result.place_id} value={result.display_name}>{result.display_name}</option>
+                    ))}
+                </select>
+            )}
             <label>Contact Number</label>
             <input type='text' value={contactNumber} onChange={(e) => setContactNumber(e.target.value)} required />
+            <label>Additional Information</label>
+            <input type='text' value={adInfo} onChange={(e) => setAdInfo(e.target.value)} />
             <label>Is Return</label>
             <input label='yes/no' type='checkbox' checked={isReturn} onChange={handleIsReturnChange} />
             {/* <span>{isReturn ? 'Yes' : 'No'}</span> */}
@@ -116,13 +132,27 @@ const AppointmentForm = ({ updateAppointments }) => {
             {isReturn && (
                 <>
                     <label>Return Time</label>
-                    <input type='datetime-local' value={returnTime} onChange={(e) => setReturnTime(e.target.value)} required />
+                    <input type='time' value={returnTime} onChange={(e) => setReturnTime(e.target.value)} required />
 
                     <label>Return Location</label>
                     <input type='text' value={returnLocation} onChange={(e) => setReturnLocation(e.target.value)} required />
+                    {searchResults.length > 0 && (
+                        <select onChange={(e) => setReturnLocation(e.target.value)}>
+                            {searchResults.map((result) => (
+                                <option key={result.place_id} value={result.display_name}>{result.display_name}</option>
+                            ))}
+                        </select>
+                    )}
 
                     <label>Return Destination</label>
                     <input type='text' value={returnDestination} onChange={(e) => setReturnDestination(e.target.value)} required />
+                    {searchResults.length > 0 && (
+                <select  onChange={(e) => setReturnDestination(e.target.value)}>
+                    {searchResults.map((result) => (
+                        <option key={result.place_id} value={result.display_name}>{result.display_name}</option>
+                    ))}
+                </select>
+            )}
                 </>
             )}
 

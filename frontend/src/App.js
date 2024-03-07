@@ -5,6 +5,7 @@ import Home from './pages/Home';
 import AddApointment from './pages/AddApointmnet';
 import Landing from './pages/Landing';
 import Login from './pages/login';
+import Search from './pages/search';
 
 
 function App() {
@@ -17,7 +18,8 @@ function App() {
             <Route path="/" element={<Login />} />
             <Route path="/main" element={<Landing />} />
             <Route path="/add-appointment" element={<AddApointment />} />
-            <Route path="/appointments" element={<Home />} />
+            <Route path="/appointments" element={<Search />} />
+            <Route path="/search" element={<Search />} />
           </Routes>
         </div>
       </BrowserRouter>

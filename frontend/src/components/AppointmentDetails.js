@@ -1,12 +1,13 @@
 import React from "react";
 import { useEffect, useState } from "react";
-
+import Modal from 'react-modal';
 
 const AppointmentDetails = ({ appointment, updateAppointments }) => {
     const [deleteSuccess, setDeleteSuccess] = useState(false);
     const [editMode, setEditMode] = useState(false);
     const [id, setid] = useState('');
     const [numberOfPassengers, setNumberOfPassengers] = useState('');
+    const [pickupDate, setPickupDate] = useState('');
     const [isReturn, setIsReturn] = useState('');
     const [pickupTime, setPickupTime] = useState('');
     const [pickupLocation, setPickupLocation] = useState('');
@@ -15,15 +16,13 @@ const AppointmentDetails = ({ appointment, updateAppointments }) => {
     const [returnLocation, setReturnLocation] = useState('');
     const [returnDestination, setReturnDestination] = useState('');
     const [contactNumber, setContactNumber] = useState('');
+    const [adInfo, setAdInfo] = useState('');
     const [error, setError] = useState(null);
     const [successMessage, setSuccessMessage] = useState('');
-
-    useEffect(() => {
-        setDeleteSuccess(false);
-    }, [appointment]);
+    const [modalIsOpen, setModalIsOpen] = useState(false);
 
     const handleClick = async () => {
-        const response = await fetch(`http://localhost:5000/appointments/${appointment._id}`, {
+        const response = await fetch(`/appointments/${appointment._id}`, {
             method: 'DELETE'
         });
         if (response.ok) {
@@ -41,6 +40,7 @@ const AppointmentDetails = ({ appointment, updateAppointments }) => {
         setEditMode(true);
         setid(appointment.id);
         setNumberOfPassengers(appointment.numberOfPassengers);
+        setPickupDate(appointment.pickupDate);
         setIsReturn(appointment.isReturn);
         setPickupTime(appointment.pickupTime);
         setPickupLocation(appointment.pickupLocation);
@@ -49,12 +49,14 @@ const AppointmentDetails = ({ appointment, updateAppointments }) => {
         setReturnLocation(appointment.returnLocation);
         setReturnDestination(appointment.returnDestination);
         setContactNumber(appointment.contactNumber);
+        setAdInfo(appointment.adInfo);
     };
 
     const handleCancel = () => {
         setEditMode(false);
         setid('');
         setNumberOfPassengers('');
+        setPickupDate('');
         setIsReturn('');
         setPickupTime('');
         setPickupLocation('');
@@ -63,11 +65,13 @@ const AppointmentDetails = ({ appointment, updateAppointments }) => {
         setReturnLocation('');
         setReturnDestination('');
         setContactNumber('');
+        setAdInfo('');
         setError(null);
     };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const response = await fetch(`http://localhost:5000/appointments/${appointment._id}`, {
+        const response = await fetch(`/appointments/${appointment._id}`, {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json'
@@ -75,6 +79,7 @@ const AppointmentDetails = ({ appointment, updateAppointments }) => {
             body: JSON.stringify({
                 id,
                 numberOfPassengers,
+                pickupDate,
                 isReturn,
                 pickupTime,
                 pickupLocation,
@@ -82,7 +87,8 @@ const AppointmentDetails = ({ appointment, updateAppointments }) => {
                 returnTime,
                 returnLocation,
                 returnDestination,
-                contactNumber
+                contactNumber,
+                adInfo
             })
         });
         const json = await response.json();
@@ -94,6 +100,7 @@ const AppointmentDetails = ({ appointment, updateAppointments }) => {
             setError(null);
             setid('');
             setNumberOfPassengers('');
+            setPickupDate('');
             setIsReturn('');
             setPickupTime('');
             setPickupLocation('');
@@ -102,6 +109,7 @@ const AppointmentDetails = ({ appointment, updateAppointments }) => {
             setReturnLocation('');
             setReturnDestination('');
             setContactNumber('');
+            setAdInfo('');
             setSuccessMessage('Appointment updated successfully');
             setEditMode(false);
             updateAppointments();
@@ -113,42 +121,63 @@ const AppointmentDetails = ({ appointment, updateAppointments }) => {
 
     return (
         <div className="appointment-details">
-            <h4>{appointment._id}</h4>
+            <h4>{new Date(appointment.pickupDate).toLocaleDateString()}</h4>
             <p>
                 <strong>Number of Passengers:</strong> {appointment.numberOfPassengers}
             </p>
-            <p>
-                <strong>Pickup Time:</strong> {appointment.pickupTime}
-            </p>
-            <p>
-                <strong>Pickup Location:</strong> {appointment.pickupLocation}
-            </p>
-            <p>
-                <strong>Destination:</strong> {appointment.destination}
-            </p>
-            {appointment.isReturn && (
-                <>
-                    <p>
-                        <strong>Return Time:</strong> {appointment.returnTime}
-                    </p>
-                    <p>
-                        <strong>Return Location:</strong> {appointment.returnLocation}
-                    </p>
-                    <p>
-                        <strong>Return Destination:</strong> {appointment.returnDestination}
-                    </p>
-                </>
-            )}
-            <p>
-                <strong>Contact Number:</strong> {appointment.contactNumber}
-            </p>
-            {/* <p>{formatDistanceToNow(new Date(appointment.createdAt), { addSuffix: true })}</p> */}
             <div className="button-group">
-                <span className='material-symbols-outlined' onClick={handleClick}>delete</span>
-                <span className='material-symbols-outlined' style={{ cursor: 'pointer', marginRight: '45px' }} onClick={handleEdit} >edit
-                </span>
+                <span className='material-symbols-outlined' onClick={handleClick}>🗑️</span>
+                <span className='material-symbols-outlined' style={{ cursor: 'pointer', marginRight: '45px' }} onClick={handleEdit} >🖊️</span>
             </div>
+            <button onClick={() => setModalIsOpen(true)}>View Details</button>
+            <Modal isOpen={modalIsOpen} onRequestClose={() => setModalIsOpen(false)}>
+                <button style={{
+                    position: 'absolute',
+                    top: '10px',
+                    right: '10px',
+                    background: 'none',
+                    border: 'none',
+                    cursor: 'pointer',
+                    fontSize: '1.5rem',
+                    color: '#555',
+                    zIndex: '9999', // Ensure it appears above the modal content
+                }} onClick={() => setModalIsOpen(false)}>✖</button>
+                <h4>{new Date(appointment.pickupDate).toLocaleDateString()}</h4>
+                <p>
+                    <strong>Number of Passengers:</strong> {appointment.numberOfPassengers}
+                </p>
+                <p>
+                    <strong>Pickup Time:</strong> {appointment.pickupTime}
+                </p>
+                <p>
+                    <strong>Pickup Location:</strong> {appointment.pickupLocation}
+                </p>
+                <p>
+                    <strong>Destination:</strong> {appointment.destination}
+                </p>
+                {appointment.isReturn && (
+                    <>
+                        <p>
+                            <strong>Return Time:</strong> {appointment.returnTime}
+                        </p>
+                        <p>
+                            <strong>Return Location:</strong> {appointment.returnLocation}
+                        </p>
+                        <p>
+                            <strong>Return Destination:</strong> {appointment.returnDestination}
+                        </p>
+                    </>
+                )}
+                <p>
+                    <strong>Contact Number:</strong> {appointment.contactNumber}
+                </p>
+                {appointment.adInfo && (
+                    <p>
+                        <strong>Additional Information:</strong> {appointment.adInfo}
+                    </p>
+                )}
 
+            </Modal>
             {deleteSuccess && (
                 <div className="success">
                     Appointment deleted successfully
@@ -228,4 +257,5 @@ const AppointmentDetails = ({ appointment, updateAppointments }) => {
         </div>
     );
 };
+
 export default AppointmentDetails;

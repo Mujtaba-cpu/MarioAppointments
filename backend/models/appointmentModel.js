@@ -1,4 +1,5 @@
 const mongoose = require ('mongoose')
+const moment = require('moment');
 
 const appointmentSchema = new mongoose.Schema({
     numberOfPassengers: {
@@ -9,24 +10,38 @@ const appointmentSchema = new mongoose.Schema({
       type: Boolean,
       required: true,
     },
-    pickupTime: {
+    pickupDate: {
       type: Date,
-      required: function () {
-        return !this.isReturn;
+    required: true,
+    },
+    pickupTime: {
+      type: String,
+      validate: {
+        validator: function(value) {
+          // Check if the value is a valid time format
+          return moment(value, 'HH:mm', true).isValid();
+        },
+        message: props => `${props.value} is not a valid time format (HH:mm)`,
       },
+      required: true,
     },
     pickupLocation: {
       type: String,
-      required: function () {
-        return !this.isReturn;
-      },
+      required: true,
     },
     destination: {
       type: String,
       required: true,
     },
     returnTime: {
-      type: Date,
+      type: String,
+      validate: {
+        validator: function(value) {
+          // Check if the value is a valid time format
+          return moment(value, 'HH:mm', true).isValid();
+        },
+        message: props => `${props.value} is not a valid time format (HH:mm)`,
+      },
       required: function () {
         return this.isReturn;
       },
@@ -46,6 +61,9 @@ const appointmentSchema = new mongoose.Schema({
     contactNumber: {
       type: String,
       required: true,
+    },
+    adInfo: {
+      type: String,
     },
   });
 
