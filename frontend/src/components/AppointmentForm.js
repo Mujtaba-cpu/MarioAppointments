@@ -1,4 +1,6 @@
 import { useState, useEffect } from 'react';
+import Checkbox from '@mui/material/Checkbox';
+import FormControlLabel from '@mui/material/FormControlLabel';
 
 const AppointmentForm = ({ updateAppointments }) => {
     const [numberOfPassengers, setNumberOfPassengers] = useState('');
@@ -12,6 +14,7 @@ const AppointmentForm = ({ updateAppointments }) => {
     const [returnDestination, setReturnDestination] = useState('');
     const [contactNumber, setContactNumber] = useState('');
     const [adInfo, setAdInfo] = useState('');
+    const [priceQuote, setPriceQuote] = useState('');
     const [error, setError] = useState(null);
     const [successMessage, setSuccessMessage] = useState('');
     const [emptyFields, setEmptyFields] = useState([]);
@@ -49,9 +52,9 @@ const AppointmentForm = ({ updateAppointments }) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         console.log('pickupTime', pickupTime);
-        const appointment = { numberOfPassengers, isReturn, pickupDate, pickupTime, pickupLocation, destination, returnTime, returnLocation, returnDestination, contactNumber, adInfo };
+        const appointment = { numberOfPassengers, isReturn, pickupDate, pickupTime, pickupLocation, destination, returnTime, returnLocation, returnDestination, contactNumber, adInfo, priceQuote };
 
-        const response = await fetch('/appointments', {
+        const response = await fetch('https://mario-appointments-server.vercel.app/appointments', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -78,6 +81,7 @@ const AppointmentForm = ({ updateAppointments }) => {
             setReturnDestination('');
             setContactNumber('');
             setAdInfo('');
+            setPriceQuote('');
             setSuccessMessage('Appointment created successfully');
             updateAppointments();
             setTimeout(() => {
@@ -123,11 +127,24 @@ const AppointmentForm = ({ updateAppointments }) => {
             )}
             <label>Contact Number</label>
             <input type='text' value={contactNumber} onChange={(e) => setContactNumber(e.target.value)} required />
+            <label>Price Quote</label>
+            <input type='number' value={priceQuote} onChange={(e) => setPriceQuote(e.target.value)} required />
             <label>Additional Information</label>
             <input type='text' value={adInfo} onChange={(e) => setAdInfo(e.target.value)} />
-            <label>Is Return</label>
-            <input label='yes/no' type='checkbox' checked={isReturn} onChange={handleIsReturnChange} />
-            {/* <span>{isReturn ? 'Yes' : 'No'}</span> */}
+            <FormControlLabel
+                control={
+                    <Checkbox
+                        checked={isReturn}
+                        onChange={handleIsReturnChange}
+                        color="primary"
+                    />
+                }
+                label="Is this a return ride?"
+                labelPlacement="end"
+                className="fcl" 
+            />
+            <br/>
+
 
             {isReturn && (
                 <>
@@ -147,12 +164,12 @@ const AppointmentForm = ({ updateAppointments }) => {
                     <label>Return Destination</label>
                     <input type='text' value={returnDestination} onChange={(e) => setReturnDestination(e.target.value)} required />
                     {searchResults.length > 0 && (
-                <select  onChange={(e) => setReturnDestination(e.target.value)}>
-                    {searchResults.map((result) => (
-                        <option key={result.place_id} value={result.display_name}>{result.display_name}</option>
-                    ))}
-                </select>
-            )}
+                        <select onChange={(e) => setReturnDestination(e.target.value)}>
+                            {searchResults.map((result) => (
+                                <option key={result.place_id} value={result.display_name}>{result.display_name}</option>
+                            ))}
+                        </select>
+                    )}
                 </>
             )}
 

@@ -3,7 +3,7 @@
 
 /* layout */
 :root {
-  --primary: #ce5c11;
+  --primary: #e96914;
   --error: #e7195a;
 }
 body {
@@ -137,7 +137,7 @@ div.success {
 }
 
 /* new workout form */
-label, input, select {
+label, input, select, .fcl {
   display: block;
 }
 input {

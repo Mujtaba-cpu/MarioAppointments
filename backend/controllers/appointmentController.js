@@ -44,7 +44,7 @@ const appointmentController = {
 
   //create new appointment
   async createAppointment(req, res) {
-    const { numberOfPassengers, isReturn, pickupDate, pickupTime, pickupLocation, destination, returnTime, returnLocation, returnDestination, contactNumber, adInfo} = req.body;
+    const { numberOfPassengers, isReturn, pickupDate, pickupTime, pickupLocation, destination, returnTime, returnLocation, returnDestination, contactNumber, adInfo, priceQuote} = req.body;
 
 
     let emptyFields = [];
@@ -59,12 +59,13 @@ const appointmentController = {
     if (isReturn && !returnDestination) emptyFields.push('returnDestination');
     if (!contactNumber) emptyFields.push('contactNumber');
     if (typeof adInfo === 'undefined' && adInfo === '') emptyFields.push('adInfo');
+    if (!priceQuote) emptyFields.push('priceQuote');
     if (emptyFields.length > 0) {
       return res.status(400).json({ message: `The following fields are empty: ${emptyFields.join(', ')}` });
     }
 
     try {
-      const appointment = await Appointment.create({ numberOfPassengers, isReturn, pickupDate, pickupTime, pickupLocation, destination, returnTime, returnLocation, returnDestination, contactNumber, adInfo });
+      const appointment = await Appointment.create({ numberOfPassengers, isReturn, pickupDate, pickupTime, pickupLocation, destination, returnTime, returnLocation, returnDestination, contactNumber, adInfo, priceQuote });
       res.status(200).json({ appointment });
     } catch (err) {
       res.status(400).json({ error: err.message });
@@ -99,6 +100,7 @@ const appointmentController = {
       appointment.returnDestination = req.body.returnDestination;
       appointment.contactNumber = req.body.contactNumber;
       appointment.adInfo = req.body.adInfo;
+      appointment.priceQuote = req.body.priceQuote;
 
       await appointment.save();
       res.status(200).json({ appointment });

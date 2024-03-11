@@ -17,12 +17,13 @@ const AppointmentDetails = ({ appointment, updateAppointments }) => {
     const [returnDestination, setReturnDestination] = useState('');
     const [contactNumber, setContactNumber] = useState('');
     const [adInfo, setAdInfo] = useState('');
+    const [priceQuote, setPriceQuote] = useState('');
     const [error, setError] = useState(null);
     const [successMessage, setSuccessMessage] = useState('');
     const [modalIsOpen, setModalIsOpen] = useState(false);
 
     const handleClick = async () => {
-        const response = await fetch(`/appointments/${appointment._id}`, {
+        const response = await fetch(`https://mario-appointments-server.vercel.app/appointments/${appointment._id}`, {
             method: 'DELETE'
         });
         if (response.ok) {
@@ -50,6 +51,7 @@ const AppointmentDetails = ({ appointment, updateAppointments }) => {
         setReturnDestination(appointment.returnDestination);
         setContactNumber(appointment.contactNumber);
         setAdInfo(appointment.adInfo);
+        setPriceQuote(appointment.priceQuote);
     };
 
     const handleCancel = () => {
@@ -66,12 +68,13 @@ const AppointmentDetails = ({ appointment, updateAppointments }) => {
         setReturnDestination('');
         setContactNumber('');
         setAdInfo('');
+        setPriceQuote('');
         setError(null);
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const response = await fetch(`/appointments/${appointment._id}`, {
+        const response = await fetch(`https://mario-appointments-server.vercel.app/appointments/${appointment._id}`, {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json'
@@ -88,7 +91,8 @@ const AppointmentDetails = ({ appointment, updateAppointments }) => {
                 returnLocation,
                 returnDestination,
                 contactNumber,
-                adInfo
+                adInfo,
+                priceQuote
             })
         });
         const json = await response.json();
@@ -110,6 +114,7 @@ const AppointmentDetails = ({ appointment, updateAppointments }) => {
             setReturnDestination('');
             setContactNumber('');
             setAdInfo('');
+            setPriceQuote('');
             setSuccessMessage('Appointment updated successfully');
             setEditMode(false);
             updateAppointments();
@@ -142,9 +147,9 @@ const AppointmentDetails = ({ appointment, updateAppointments }) => {
                     color: '#555',
                     zIndex: '9999', // Ensure it appears above the modal content
                 }} onClick={() => setModalIsOpen(false)}>✖</button>
-                <h4>{new Date(appointment.pickupDate).toLocaleDateString()}</h4>
+                <h4 style={{color: '#e96914'}}>{new Date(appointment.pickupDate).toLocaleDateString()}</h4>
                 <p>
-                    <strong>Number of Passengers:</strong> {appointment.numberOfPassengers}
+                    <strong >Number of Passengers:</strong> {appointment.numberOfPassengers}
                 </p>
                 <p>
                     <strong>Pickup Time:</strong> {appointment.pickupTime}
@@ -154,6 +159,9 @@ const AppointmentDetails = ({ appointment, updateAppointments }) => {
                 </p>
                 <p>
                     <strong>Destination:</strong> {appointment.destination}
+                </p>
+                <p>
+                    <strong>Is Return:</strong> {appointment.isReturn ? 'Yes' : 'No'}
                 </p>
                 {appointment.isReturn && (
                     <>
@@ -170,6 +178,9 @@ const AppointmentDetails = ({ appointment, updateAppointments }) => {
                 )}
                 <p>
                     <strong>Contact Number:</strong> {appointment.contactNumber}
+                </p>
+                <p>
+                    <strong>Price Quote:</strong> {appointment.priceQuote}
                 </p>
                 {appointment.adInfo && (
                     <p>
