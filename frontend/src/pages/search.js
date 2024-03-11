@@ -38,7 +38,7 @@ const Search = () => {
             console.log(startDate, endDate);
         }
 
-        const response = await fetch('/appointments/date', {
+        const response = await fetch('https://mario-appointments-server.vercel.app/appointments/date', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
