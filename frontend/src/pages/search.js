@@ -75,8 +75,8 @@ const Search = () => {
 
 
     return (
-        <div className='search-box'>
-            <div className='search-form-container' style={{ width: '400px' }}>
+        <div className='search-box'style={{ width: '350px' }}>
+            <div className='search-form-container' >
                 <select value={range} onChange={(e) => setRange(e.target.value)}>
                     <option value="today">Today</option>
                     <option value="thisWeek">This Week</option>
