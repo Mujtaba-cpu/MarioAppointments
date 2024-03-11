@@ -26,8 +26,8 @@ app.use('appointments/date', appointmentRoutes)
 mongoose.connect(process.env.DB_URI)
     .then(() => {
         //listen for requests
-        app.listen(process.env.PORT, () => {
-            console.log('connected to db and server started on port: ' + process.env.PORT + '...')
+        app.listen(5000, () => {
+            console.log('connected to db and server started on port: ' + 5000 + '...')
         })  // server listens on port 5000
     })
     .catch((err) => {console.log(err)
