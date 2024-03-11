@@ -130,7 +130,7 @@ const AppointmentForm = ({ updateAppointments }) => {
             <label>Price Quote</label>
             <div style={{position: 'relative'}}>
                 <span style={{position: 'absolute', top: '50%', transform: 'translateY(-50%)', left: '8px'}}>£</span>
-                <input type='number' style={{ paddingLeft: '20px' }} value={priceQuote} onChange={(e) => setPriceQuote(e.target.value)} required />
+                <input type='number' placeholder="00.00" style={{ paddingLeft: '20px' }} value={priceQuote} onChange={(e) => setPriceQuote(e.target.value)} required />
             </div>
             <label>Additional Information</label>
             <input type='text' value={adInfo} onChange={(e) => setAdInfo(e.target.value)} />
