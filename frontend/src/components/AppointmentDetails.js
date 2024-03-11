@@ -257,6 +257,18 @@ const AppointmentDetails = ({ appointment, updateAppointments }) => {
                             value={contactNumber}
                             onChange={(e) => setContactNumber(e.target.value)}
                         />
+                        <label>Additional Information:</label>
+                        <input
+                            type="text"
+                            value={adInfo}
+                            onChange={(e) => setAdInfo(e.target.value)}
+                            />
+                        <label>Price Quote:</label>
+                        <input
+                            type="text"
+                            value={priceQuote}
+                            onChange={(e) => setPriceQuote(e.target.value)}
+                            />
 
                         <button style={{ marginRight: '10px' }}>Update</button>
                         <button onClick={handleCancel}>Cancel</button>
