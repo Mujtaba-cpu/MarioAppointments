@@ -128,7 +128,10 @@ const AppointmentForm = ({ updateAppointments }) => {
             <label>Contact Number</label>
             <input type='text' value={contactNumber} onChange={(e) => setContactNumber(e.target.value)} required />
             <label>Price Quote</label>
-            <input type='number' value={priceQuote} onChange={(e) => setPriceQuote(e.target.value)} required />
+            <div style={{position: 'relative'}}>
+                <span style={{position: 'absolute', top: '50%', transform: 'translateY(-50%)', left: '8px'}}>£</span>
+                <input type='number' style={{ paddingLeft: '20px' }} value={priceQuote} onChange={(e) => setPriceQuote(e.target.value)} required />
+            </div>
             <label>Additional Information</label>
             <input type='text' value={adInfo} onChange={(e) => setAdInfo(e.target.value)} />
             <FormControlLabel
@@ -141,9 +144,9 @@ const AppointmentForm = ({ updateAppointments }) => {
                 }
                 label="Is this a return ride?"
                 labelPlacement="end"
-                className="fcl" 
+                className="fcl"
             />
-            <br/>
+            <br />
 
 
             {isReturn && (
