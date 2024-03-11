@@ -12,7 +12,7 @@ const Landing = () => {
                 Book an appointment or view existing appointments
             </p>
             <Link to="/appointments">
-                <button style={{ marginRight: '10px' }}>View Appointments</button>
+                <button style={{ marginRight: '10px', marginBottom: '10px' }}>View Appointments</button>
             </Link>
 
             <Link to="/add-appointment">
