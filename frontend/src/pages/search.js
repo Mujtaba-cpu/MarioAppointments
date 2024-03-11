@@ -67,7 +67,7 @@ const Search = () => {
             if (start && end) {
                 fetchAppointmentsByDateRange(range);
             } else {
-                console.error('Please select both start and end dates for custom range.');
+                alert({message: 'Please select both start and end dates for custom range.'});
             }
         }
     }
