@@ -331,7 +331,7 @@ z-index: 9999; /* Ensure it appears above the modal content */
     width: 100%;
   }
   .search-form-container {
-    width: 100%; /* Set width to 80% of the screen */
+    width: max; /* Set width to 80% of the screen */
   }
   .search-form-container input[type="date"]{
     width: 100%; /* Make input fields full width */
