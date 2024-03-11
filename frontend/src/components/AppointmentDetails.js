@@ -180,7 +180,7 @@ const AppointmentDetails = ({ appointment, updateAppointments }) => {
                     <strong>Contact Number:</strong> {appointment.contactNumber}
                 </p>
                 <p>
-                    <strong>Price Quote:</strong> {appointment.priceQuote}
+                    <strong>Price Quote:</strong> £ {appointment.priceQuote} 
                 </p>
                 {appointment.adInfo && (
                     <p>
