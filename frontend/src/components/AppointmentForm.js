@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react';
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
+import { useParams } from 'react-router-dom';
 
-const AppointmentForm = ({ updateAppointments }) => {
+
+const AppointmentForm = ({ updateAppointments }, {user}) => {
     const [numberOfPassengers, setNumberOfPassengers] = useState('');
     const [isReturn, setIsReturn] = useState(false);
     const [pickupDate, setPickupDate] = useState('');
@@ -19,7 +21,8 @@ const AppointmentForm = ({ updateAppointments }) => {
     const [successMessage, setSuccessMessage] = useState('');
     const [emptyFields, setEmptyFields] = useState([]);
     const [searchResults, setSearchResults] = useState([]);
-
+    const { username } = useParams();
+    
     useEffect(() => {
         // Fetch search results based on pickupLocation
         const fetchSearchResults = async () => {
@@ -92,7 +95,7 @@ const AppointmentForm = ({ updateAppointments }) => {
 
     return (
         <form className='create' onSubmit={handleSubmit}>
-            <h3>Create a new appointment</h3>
+            <h3>Create a new appointment, {username}!</h3>
 
             <label>Number of Passengers</label>
             <input type='number' value={numberOfPassengers} onChange={handlePassengerChange} required min="0"

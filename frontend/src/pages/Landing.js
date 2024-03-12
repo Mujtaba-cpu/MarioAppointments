@@ -1,21 +1,19 @@
-
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 
 
 const Landing = () => {
-
-
+    const { username } = useParams();
     return (
         <div>
-            <h1>Welcome to the Appointments</h1>
+            <h1>Welcome to the Appointments, {username}!</h1>
             <p>
                 Book an appointment or view existing appointments
             </p>
-            <Link to="/appointments">
+            <Link to={`/appointments/${username}`}>
                 <button style={{ marginRight: '10px', marginBottom: '10px' }}>View Appointments</button>
             </Link>
 
-            <Link to="/add-appointment">
+            <Link to={`/add-appointment/${username}`}>
                 <button>Add Appointments</button>
             </Link>
 

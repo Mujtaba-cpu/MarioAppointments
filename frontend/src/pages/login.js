@@ -1,27 +1,26 @@
 import { useState } from 'react';
 
-import { eyeOff } from 'react-icons-kit/feather/eyeOff';
-import { eye } from 'react-icons-kit/feather/eye'
+
+
 
 const Login = () => {
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [type, setType] = useState('password');
-    const [icon, setIcon] = useState(eyeOff);
     const [error, setError] = useState(null);
     const [successMessage, setSuccessMessage] = useState('');
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-    const isLogged = () => {
-        setIsLoggedIn(true);
-    };
     const handleLogin = () => {
-        if (username === 'admin' && password === 'CSCuser1?123') {
+        if ((username.toLowerCase() === 'admin' && password === 'CSCuser1?123')
+            || (username.toLowerCase() === 'anna' && password === 'anna123')
+            || (username.toLowerCase() === 'nasir' && password === 'nasir123')
+            || (username.toLowerCase() === 'sheriar' && password === 'sheriar123')
+            || (username.toLowerCase() === 'yasir' && password === 'yasir123')
+            ) {
             // Login successful
-            window.location.href = '/main'; // Replace '/some-page' with the desired page URL
+            window.location.href = '/main/' + username; // Replace '/some-page' with the desired page URL
             setSuccessMessage('Login successful');
-            isLogged();
         } else {
             setError('Invalid username or password');
             setTimeout(() => {
@@ -31,10 +30,8 @@ const Login = () => {
     }
     const handleToggle = () => {
         if (type === 'password') {
-            setIcon(eye);
             setType('text')
         } else {
-            setIcon(eyeOff)
             setType('password')
         }
     }

@@ -1,6 +1,8 @@
-
 import AppointmentForm from "../components/AppointmentForm";
 import { useState } from "react";
+
+
+
 
 const AddAppointment = () => {
     const [appointments, setAppointments] = useState(null);
@@ -21,7 +23,8 @@ const AddAppointment = () => {
     return (
         <div className="add-appointment">
             <h2>Add Appointment</h2>
-            <AppointmentForm updateAppointments={updateAppointments}/>
+            <h2>Welcome to the Appointments</h2>
+            <AppointmentForm updateAppointments={updateAppointments} />
         </div>
     );
 }

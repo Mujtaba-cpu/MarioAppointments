@@ -28,23 +28,24 @@ const appointmentController = {
   //get appointments from a specific date to another date
   async getAppointmentsByDate(req, res) {
     const { startDate, endDate } = req.body;
-    
+
     try {
-        const appointments = await Appointment.find({
-            pickupDate: { $gte: startDate, $lte: endDate }
-        }).sort({ pickupDate: -1 });
+      const appointments = await Appointment.find({
+        pickupDate: { $gte: startDate, $lte: endDate }
+      }).sort({ pickupDate: -1 });
 
-        res.status(200).json({ appointments });
+      res.status(200).json({ appointments });
     } catch (err) {
-        res.status(400).json({ error: err.message });
+      res.status(400).json({ error: err.message });
     }
-},
+  },
 
-  
+
 
   //create new appointment
   async createAppointment(req, res) {
-    const { numberOfPassengers, isReturn, pickupDate, pickupTime, pickupLocation, destination, returnTime, returnLocation, returnDestination, contactNumber, adInfo, priceQuote} = req.body;
+    const { numberOfPassengers, isReturn, pickupDate, pickupTime, pickupLocation, destination, returnTime,
+      returnLocation, returnDestination, contactNumber, adInfo, priceQuote, email, username, customerName } = req.body;
 
 
     let emptyFields = [];
@@ -60,12 +61,15 @@ const appointmentController = {
     if (!contactNumber) emptyFields.push('contactNumber');
     if (typeof adInfo === 'undefined' && adInfo === '') emptyFields.push('adInfo');
     if (!priceQuote) emptyFields.push('priceQuote');
+    if (!email) emptyFields.push('email');
+    if (!username) emptyFields.push('username');
+    if (!customerName) emptyFields.push('customerName');
     if (emptyFields.length > 0) {
       return res.status(400).json({ message: `The following fields are empty: ${emptyFields.join(', ')}` });
     }
 
     try {
-      const appointment = await Appointment.create({ numberOfPassengers, isReturn, pickupDate, pickupTime, pickupLocation, destination, returnTime, returnLocation, returnDestination, contactNumber, adInfo, priceQuote });
+      const appointment = await Appointment.create({ numberOfPassengers, isReturn, pickupDate, pickupTime, pickupLocation, destination, returnTime, returnLocation, returnDestination, contactNumber, adInfo, priceQuote, email, username, customerName});
       res.status(200).json({ appointment });
     } catch (err) {
       res.status(400).json({ error: err.message });
@@ -75,14 +79,14 @@ const appointmentController = {
   //update appointment
   async updateAppointment(req, res) {
     const id = req.params.id;
-    
-    
+
+
 
     if (!mongoose.Types.ObjectId.isValid(id)) {
       return res.status(400).json({ message: 'Invalid Id' });
     }
 
-    const appointment = await Appointment.findByIdAndUpdate(id , req.body, { new: true });
+    const appointment = await Appointment.findByIdAndUpdate(id, req.body, { new: true });
 
     if (!appointment) {
       return res.status(404).json({ message: 'Appointment not found' });
@@ -101,6 +105,9 @@ const appointmentController = {
       appointment.contactNumber = req.body.contactNumber;
       appointment.adInfo = req.body.adInfo;
       appointment.priceQuote = req.body.priceQuote;
+      appointment.email = req.body.email;
+      appointment.username = req.body.username;
+      appointment.customerName = req.body.customerName;
 
       await appointment.save();
       res.status(200).json({ appointment });
@@ -123,12 +130,12 @@ const appointmentController = {
       return res.status(404).json({ message: 'Appointment not found' });
     }
 
-    res.status(200).json({ appointment});
+    res.status(200).json({ appointment });
   }
 }
 
-  
-  
 
 
-  module.exports = appointmentController;
+
+
+module.exports = appointmentController;

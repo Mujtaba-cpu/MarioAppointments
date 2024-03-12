@@ -62,6 +62,18 @@ const appointmentSchema = new mongoose.Schema({
       type: Number,
       required: true,
     },
+    email: {
+      type: String,
+      required: true,
+    },
+    username: {
+      type: String,
+      required: true,
+    },
+    customerName: {
+      type: String,
+      required: true,
+    },
   });
 
 module.exports = mongoose.model('Appointment', appointmentSchema);
