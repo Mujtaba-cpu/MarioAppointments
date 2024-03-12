@@ -18,6 +18,9 @@ const AppointmentDetails = ({ appointment, updateAppointments }) => {
     const [contactNumber, setContactNumber] = useState('');
     const [adInfo, setAdInfo] = useState('');
     const [priceQuote, setPriceQuote] = useState('');
+    const [email, setEmail] = useState('');
+    const [customerName, setCustomerName] = useState('');
+    const [username, setUsername] = useState('');
     const [error, setError] = useState(null);
     const [successMessage, setSuccessMessage] = useState('');
     const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -52,6 +55,9 @@ const AppointmentDetails = ({ appointment, updateAppointments }) => {
         setContactNumber(appointment.contactNumber);
         setAdInfo(appointment.adInfo);
         setPriceQuote(appointment.priceQuote);
+        setEmail(appointment.email);
+        setUsername(appointment.username);
+        setCustomerName(appointment.customerName);
     };
 
     const handleCancel = () => {
@@ -69,6 +75,8 @@ const AppointmentDetails = ({ appointment, updateAppointments }) => {
         setContactNumber('');
         setAdInfo('');
         setPriceQuote('');
+        setEmail('');
+        setCustomerName('');
         setError(null);
     };
 
@@ -92,7 +100,11 @@ const AppointmentDetails = ({ appointment, updateAppointments }) => {
                 returnDestination,
                 contactNumber,
                 adInfo,
-                priceQuote
+                priceQuote,
+                email,
+                username,
+                customerName
+
             })
         });
         const json = await response.json();
@@ -115,6 +127,8 @@ const AppointmentDetails = ({ appointment, updateAppointments }) => {
             setContactNumber('');
             setAdInfo('');
             setPriceQuote('');
+            setEmail('');
+            setCustomerName('');
             setSuccessMessage('Appointment updated successfully');
             setEditMode(false);
             updateAppointments();
@@ -126,7 +140,7 @@ const AppointmentDetails = ({ appointment, updateAppointments }) => {
 
     return (
         <div className="appointment-details">
-            <h4>{new Date(appointment.pickupDate).toLocaleDateString()}</h4>
+            <h4>{new Date(appointment.pickupDate).toLocaleDateString('en-GB')}</h4>
             <p>
                 <strong>Number of Passengers:</strong> {appointment.numberOfPassengers}
             </p>
@@ -147,7 +161,16 @@ const AppointmentDetails = ({ appointment, updateAppointments }) => {
                     color: '#555',
                     zIndex: '9999', // Ensure it appears above the modal content
                 }} onClick={() => setModalIsOpen(false)}>✖</button>
-                <h4 style={{color: '#e96914'}}>{new Date(appointment.pickupDate).toLocaleDateString()}</h4>
+                <h4 style={{color: '#e96914'}}>{new Date(appointment.pickupDate).toLocaleDateString('en-GB')}</h4>
+                <p>
+                    <strong >Customer Name:</strong> {appointment.customerName}
+                </p>
+                <p>
+                    <strong >Email:</strong> {appointment.email}
+                </p>
+                <p>
+                    <strong >Appointment created by:</strong> {appointment.username}
+                </p>
                 <p>
                     <strong >Number of Passengers:</strong> {appointment.numberOfPassengers}
                 </p>
@@ -198,6 +221,19 @@ const AppointmentDetails = ({ appointment, updateAppointments }) => {
                 <div className="edit-form container">
                     <form className="create" onSubmit={handleSubmit}>
                         <h3>Edit Appointment</h3>
+                        <label>Customer Name:</label>
+                        <input
+                            type="text"
+                            value={customerName}
+                            onChange={(e) => setCustomerName(e.target.value)}
+                        />
+                        <label>Email:</label>
+                        <input
+                            type="email"
+                            placeholder="Email Address"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                        />
 
                         <label>Number of Passengers:</label>
                         <input

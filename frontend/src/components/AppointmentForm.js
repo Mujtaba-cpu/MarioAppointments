@@ -4,7 +4,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import { useParams } from 'react-router-dom';
 
 
-const AppointmentForm = ({ updateAppointments }, {user}) => {
+const AppointmentForm = ({ updateAppointments }) => {
     const [numberOfPassengers, setNumberOfPassengers] = useState('');
     const [isReturn, setIsReturn] = useState(false);
     const [pickupDate, setPickupDate] = useState('');
@@ -17,30 +17,89 @@ const AppointmentForm = ({ updateAppointments }, {user}) => {
     const [contactNumber, setContactNumber] = useState('');
     const [adInfo, setAdInfo] = useState('');
     const [priceQuote, setPriceQuote] = useState('');
+    const [email, setEmail] = useState('');
+    const [customerName, setCustomerName] = useState('');
     const [error, setError] = useState(null);
     const [successMessage, setSuccessMessage] = useState('');
     const [emptyFields, setEmptyFields] = useState([]);
-    const [searchResults, setSearchResults] = useState([]);
+    const [searchResultsPickup, setSearchResultsPickup] = useState([]);
+    const [searchResultsDestination, setSearchResultsDestination] = useState([]);
+    const [searchResultsReturn, setSearchResultsReturn] = useState([]);
+    const [searchResultsReturnDestination, setSearchResultsReturnDestination] = useState([]);
     const { username } = useParams();
-    
+
     useEffect(() => {
         // Fetch search results based on pickupLocation
-        const fetchSearchResults = async () => {
+        const fetchSearchResultsPickup = async () => {
             try {
                 const response = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${pickupLocation}`);
                 const data = await response.json();
-                setSearchResults(data);
+                setSearchResultsPickup(data);
+
             } catch (error) {
                 console.error('Error fetching search results:', error);
             }
         };
 
+        //fetch search resduls based on destination
+        const fetchSearchResultsDestination = async () => {
+            try {
+                const response = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${destination}`);
+                const data = await response.json();
+                setSearchResultsDestination(data);
+            } catch (error) {
+                console.error('Error fetching search results:', error);
+            }
+        };
+
+        //fetch searchresults based on return location
+        const fetchSearchResultsReturn = async () => {
+            try {
+                const response = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${returnLocation}`);
+                const data = await response.json();
+                setSearchResultsReturn(data);
+            } catch (error) {
+                console.error('Error fetching search results:', error);
+            }
+        };
+
+        //fetch searchresults based on return destination
+        const fetchSearchResultsReturnDestination = async () => {
+            try {
+                const response = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${returnDestination}`);
+                const data = await response.json();
+                setSearchResultsReturnDestination(data);
+            } catch (error) {
+                console.error('Error fetching search results:', error);
+            }
+        };
+
+
         if (pickupLocation) {
-            fetchSearchResults();
+            fetchSearchResultsPickup();
         } else {
-            setSearchResults([]);
+            setSearchResultsPickup([]);
         }
-    }, [pickupLocation]);
+
+        if (destination) {
+            fetchSearchResultsDestination();
+        } else {
+            setSearchResultsDestination([]);
+        }
+
+        if (returnLocation) {
+            fetchSearchResultsReturn();
+        } else {
+            setSearchResultsReturn([]);
+        }
+
+        if (returnDestination) {
+            fetchSearchResultsReturnDestination();
+        } else {
+            setSearchResultsReturnDestination([]);
+        }
+
+    }, [pickupLocation, destination, returnLocation, returnDestination]);
 
     const handlePassengerChange = (e) => {
         const inputValue = e.target.value;
@@ -55,8 +114,9 @@ const AppointmentForm = ({ updateAppointments }, {user}) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         console.log('pickupTime', pickupTime);
-        const appointment = { numberOfPassengers, isReturn, pickupDate, pickupTime, pickupLocation, destination, returnTime, returnLocation, returnDestination, contactNumber, adInfo, priceQuote };
-
+        const appointment = { numberOfPassengers, isReturn, pickupDate, pickupTime, pickupLocation, destination, returnTime, returnLocation, returnDestination, contactNumber, adInfo, priceQuote, email, username, customerName };
+        console.log('appointment', username)
+        console.log('appointment', appointment)
         const response = await fetch('https://mario-appointments-server.vercel.app/appointments', {
             method: 'POST',
             headers: {
@@ -85,6 +145,8 @@ const AppointmentForm = ({ updateAppointments }, {user}) => {
             setContactNumber('');
             setAdInfo('');
             setPriceQuote('');
+            setEmail('');
+            setCustomerName('');
             setSuccessMessage('Appointment created successfully');
             updateAppointments();
             setTimeout(() => {
@@ -97,33 +159,77 @@ const AppointmentForm = ({ updateAppointments }, {user}) => {
         <form className='create' onSubmit={handleSubmit}>
             <h3>Create a new appointment, {username}!</h3>
 
+            <label>Customer Name</label>
+            <input
+                type='text'
+                placeholder='Enter customer name'
+                value={customerName}
+                onChange={(e) => setCustomerName(e.target.value)}
+                required
+            />
+
+            <label>Email</label>
+            <input
+                type='email'
+                placeholder='Enter email'
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+            />
+
+
             <label>Number of Passengers</label>
-            <input type='number' value={numberOfPassengers} onChange={handlePassengerChange} required min="0"
-                className={(emptyFields && emptyFields.includes('load')) ? 'error' : ''} />
+            <input
+                type='number'
+                placeholder='Enter number of passengers'
+                value={numberOfPassengers}
+                onChange={handlePassengerChange}
+                required
+                min="0"
+                className={(emptyFields && emptyFields.includes('load')) ? 'error' : ''}
+            />
 
             <label>Pickup Date</label>
-            <input type='date' value={pickupDate} onChange={(e) => setPickupDate(e.target.value)} required />
+            <input
+                type='date'
+                value={pickupDate}
+                onChange={(e) => setPickupDate(e.target.value)}
+                required
+            />
 
             <label>Pickup Time</label>
-            <input type='time' value={pickupTime} onChange={(e) => setPickupTime(e.target.value)} required />
+            <input
+                type='time'
+                value={pickupTime}
+                onChange={(e) => setPickupTime(e.target.value)}
+                required
+            />
 
             <label>Pickup Location</label>
-            <input type='text' value={pickupLocation} onChange={(e) => setPickupLocation(e.target.value)} required />
+            <input
+                type='text'
+                value={pickupLocation} onChange={(e) => setPickupLocation(e.target.value)}
+                required
+            />
 
-            {searchResults.length > 0 && (
+            {searchResultsPickup.length > 0 && (
                 <select onChange={(e) => setPickupLocation(e.target.value)}>
-                    {searchResults.map((result) => (
+                    {searchResultsPickup.map((result) => (
                         <option key={result.place_id} value={result.display_name}>{result.display_name}</option>
                     ))}
                 </select>
             )}
 
             <label>Destination</label>
-            <input type='text' value={destination} onChange={(e) => setDestination(e.target.value)} required />
+            <input
+                type='text'
+                value={destination} onChange={(e) => setDestination(e.target.value)}
+                required
+            />
 
-            {searchResults.length > 0 && (
+            {searchResultsDestination.length > 0 && (
                 <select onChange={(e) => setDestination(e.target.value)}>
-                    {searchResults.map((result) => (
+                    {searchResultsDestination.map((result) => (
                         <option key={result.place_id} value={result.display_name}>{result.display_name}</option>
                     ))}
                 </select>
@@ -131,8 +237,8 @@ const AppointmentForm = ({ updateAppointments }, {user}) => {
             <label>Contact Number</label>
             <input type='text' value={contactNumber} onChange={(e) => setContactNumber(e.target.value)} required />
             <label>Price Quote</label>
-            <div style={{position: 'relative'}}>
-                <span style={{position: 'absolute', top: '50%', transform: 'translateY(-50%)', left: '8px'}}>£</span>
+            <div style={{ position: 'relative' }}>
+                <span style={{ position: 'absolute', top: '50%', transform: 'translateY(-50%)', left: '8px' }}>£</span>
                 <input type='number' placeholder="00.00" style={{ paddingLeft: '20px' }} value={priceQuote} onChange={(e) => setPriceQuote(e.target.value)} required />
             </div>
             <label>Additional Information</label>
@@ -159,9 +265,9 @@ const AppointmentForm = ({ updateAppointments }, {user}) => {
 
                     <label>Return Location</label>
                     <input type='text' value={returnLocation} onChange={(e) => setReturnLocation(e.target.value)} required />
-                    {searchResults.length > 0 && (
+                    {searchResultsReturn.length > 0 && (
                         <select onChange={(e) => setReturnLocation(e.target.value)}>
-                            {searchResults.map((result) => (
+                            {searchResultsReturn.map((result) => (
                                 <option key={result.place_id} value={result.display_name}>{result.display_name}</option>
                             ))}
                         </select>
@@ -169,9 +275,9 @@ const AppointmentForm = ({ updateAppointments }, {user}) => {
 
                     <label>Return Destination</label>
                     <input type='text' value={returnDestination} onChange={(e) => setReturnDestination(e.target.value)} required />
-                    {searchResults.length > 0 && (
+                    {searchResultsReturnDestination.length > 0 && (
                         <select onChange={(e) => setReturnDestination(e.target.value)}>
-                            {searchResults.map((result) => (
+                            {searchResultsReturnDestination.map((result) => (
                                 <option key={result.place_id} value={result.display_name}>{result.display_name}</option>
                             ))}
                         </select>

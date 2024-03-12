@@ -10,7 +10,7 @@ const Search = () => {
 
 
     const updateAppointments = () => {
-        fetchAppointmentsByDateRange();
+        fetchAppointmentsByDateRange(range);
     };
     const fetchAppointmentsByDateRange = async (range) => {
         const currentDate = new Date();
@@ -58,6 +58,7 @@ const Search = () => {
     };
     useEffect(() => {
         fetchAppointmentsByDateRange(range);
+        updateAppointments();
     }, []);
 
     const handleFetchButtonClick = () => {
