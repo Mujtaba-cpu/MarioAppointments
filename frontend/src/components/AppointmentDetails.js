@@ -154,20 +154,20 @@ const AppointmentDetails = ({ appointment, updateAppointments }) => {
                 <p>
                     <strong>Destination:</strong> <br /> {appointment.destination}
                 </p>
-                
+
                 <p>
                     <strong>Number of Passengers:</strong> <br /> {appointment.numberOfPassengers}
                 </p>
-                
-                    
-                
+
+
+
                 <div className="button-group">
                     <span>
                         <button onClick={() => setModalIsOpen(true)}>View Details</button>
-                    <button style={{ marginLeft: '10px' }} onClick={handleClick}>Delete</button>
-                    <button style={{ marginLeft: '10px' }} onClick={handleEdit} >Edit</button>
+                        <button style={{ marginLeft: '10px' }} onClick={handleEdit} >Edit</button>
+                        <button style={{ marginLeft: '10px' }} onClick={handleClick}>Delete</button>
                     </span>
-                    
+
                 </div>
 
 
