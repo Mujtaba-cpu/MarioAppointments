@@ -146,23 +146,28 @@ const AppointmentDetails = ({ appointment, updateAppointments }) => {
             <div className="appointment-grid">
                 <h4>{new Date(appointment.pickupDate).toLocaleDateString('en-GB')}</h4>
                 <p>
+                    <strong>Customer Name:</strong> <br /> {appointment.customerName}
+                </p>
+                <p>
                     <strong>PickupLocation:</strong> <br /> {appointment.pickupLocation}
                 </p>
                 <p>
                     <strong>Destination:</strong> <br /> {appointment.destination}
                 </p>
-                <p>
-                    <strong>Customer Name:</strong> <br /> {appointment.customerName}
-                </p>
+                
                 <p>
                     <strong>Number of Passengers:</strong> <br /> {appointment.numberOfPassengers}
                 </p>
-                <div>
-                    <button onClick={() => setModalIsOpen(true)}>View Details</button>
-                </div>
+                
+                    
+                
                 <div className="button-group">
-                    <button onClick={handleClick}>Delete</button>
+                    <span>
+                        <button onClick={() => setModalIsOpen(true)}>View Details</button>
+                    <button style={{ marginLeft: '10px' }} onClick={handleClick}>Delete</button>
                     <button style={{ marginLeft: '10px' }} onClick={handleEdit} >Edit</button>
+                    </span>
+                    
                 </div>
 
 
