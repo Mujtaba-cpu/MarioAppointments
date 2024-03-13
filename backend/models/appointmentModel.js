@@ -53,18 +53,18 @@ const appointmentSchema = new mongoose.Schema({
     },
     contactNumber: {
       type: String,
-      required: true,
+      
     },
     adInfo: {
       type: String,
     },
     priceQuote: {
       type: Number,
-      required: true,
+      
     },
     email: {
       type: String,
-      required: true,
+      
     },
     username: {
       type: String,
@@ -72,7 +72,7 @@ const appointmentSchema = new mongoose.Schema({
     },
     customerName: {
       type: String,
-      required: true,
+      
     },
   });
 

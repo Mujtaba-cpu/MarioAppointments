@@ -58,12 +58,12 @@ const appointmentController = {
     if (isReturn && !returnTime) emptyFields.push('returnTime');
     if (isReturn && !returnLocation) emptyFields.push('returnLocation');
     if (isReturn && !returnDestination) emptyFields.push('returnDestination');
-    if (!contactNumber) emptyFields.push('contactNumber');
+    if (typeof contactNumber === 'undefined' && contactNumber === '') emptyFields.push('contactNumber');
     if (typeof adInfo === 'undefined' && adInfo === '') emptyFields.push('adInfo');
-    if (!priceQuote) emptyFields.push('priceQuote');
-    if (!email) emptyFields.push('email');
+    if (typeof priceQuote === 'undefined' && priceQuote === '') emptyFields.push('priceQuote');
+    if (typeof email === 'undefined' && email === '') emptyFields.push('email');
     if (!username) emptyFields.push('username');
-    if (!customerName) emptyFields.push('customerName');
+    if (typeof customerName === 'undefined' && customerName === '') emptyFields.push('customerName');
     if (emptyFields.length > 0) {
       return res.status(400).json({ message: `The following fields are empty: ${emptyFields.join(', ')}` });
     }
