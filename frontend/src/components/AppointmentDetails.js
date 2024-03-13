@@ -220,11 +220,7 @@ const AppointmentDetails = ({ appointment, updateAppointments }) => {
                     )}
 
                 </Modal>
-                {deleteSuccess && (
-                    <div className="success">
-                        Appointment deleted successfully
-                    </div>
-                )}
+                
                 {editMode ? (
                     console.log("modal"),
                     <Modal isOpen={modalIsOpen} onRequestClose={() => setModalIsOpen(false)}>
@@ -345,6 +341,11 @@ const AppointmentDetails = ({ appointment, updateAppointments }) => {
                 ) : null}
 
             </div>
+            {deleteSuccess && (
+                    <div className="success">
+                        Appointment deleted successfully
+                    </div>
+                )}
             {error && <div className="error">{error}</div>}
                         {successMessage && <div className="success">{successMessage}</div>}
         </div>
