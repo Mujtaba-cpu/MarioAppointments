@@ -165,7 +165,6 @@ const AppointmentForm = ({ updateAppointments }) => {
                 placeholder='Enter customer name'
                 value={customerName}
                 onChange={(e) => setCustomerName(e.target.value)}
-                required
             />
 
             <label>Email</label>
@@ -174,7 +173,7 @@ const AppointmentForm = ({ updateAppointments }) => {
                 placeholder='Enter email'
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                required
+                
             />
 
 
@@ -247,11 +246,11 @@ const AppointmentForm = ({ updateAppointments }) => {
                 </select>
             )}
             <label>Contact Number</label>
-            <input type='text' value={contactNumber} onChange={(e) => setContactNumber(e.target.value)} required />
+            <input type='text' value={contactNumber} onChange={(e) => setContactNumber(e.target.value)}  />
             <label>Price Quote</label>
             <div style={{ position: 'relative' }}>
                 <span style={{ position: 'absolute', top: '50%', transform: 'translateY(-50%)', left: '8px' }}>£</span>
-                <input type='number' placeholder="00.00" style={{ paddingLeft: '20px' }} value={priceQuote} onChange={(e) => setPriceQuote(e.target.value)} required />
+                <input type='number' placeholder="00.00" style={{ paddingLeft: '20px' }} value={priceQuote} onChange={(e) => setPriceQuote(e.target.value)}  />
             </div>
             <label>Additional Information</label>
             <input type='text' value={adInfo} onChange={(e) => setAdInfo(e.target.value)} />
