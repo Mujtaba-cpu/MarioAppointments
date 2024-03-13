@@ -54,6 +54,7 @@ header a {
   gap: 100px;
 }
 .appointment-details {
+  width: 90%;
   background: #fff;
   border-radius: 4px;
   margin: 20px auto;
@@ -80,6 +81,15 @@ header a {
   padding: 6px;
   border-radius: 50%;
   color: #333;
+}
+.appointment-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 10px;
+
+}
+.appointment-grid div {
+  padding: 5px;
 }
 /* landing page */
 .landing {
@@ -285,6 +295,15 @@ z-index: 9999; /* Ensure it appears above the modal content */
     border-radius: 4px;
     box-sizing: border-box;
   }
+  select {
+    padding: 10px;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    width: 70%;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
   .appointment-details {
     gap: 20px; /* Adjusted for mobile */
     margin: 10px auto; /* Adjusted for mobile */
@@ -304,6 +323,11 @@ z-index: 9999; /* Ensure it appears above the modal content */
     right: 15px; /* Adjusted for mobile */
     padding: 5px; /* Adjusted for mobile */
   }
+  .appointment-grid {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr); /* Single column layout for mobile */
+    gap: 10px;
+}
   .login-form-container {
     width: 80%; /* Set width to 80% of the screen */
   }

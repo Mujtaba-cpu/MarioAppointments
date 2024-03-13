@@ -42,6 +42,7 @@ const AppointmentDetails = ({ appointment, updateAppointments }) => {
 
     const handleEdit = async () => {
         setEditMode(true);
+        setModalIsOpen(true)
         setid(appointment.id);
         setNumberOfPassengers(appointment.numberOfPassengers);
         setPickupDate(appointment.pickupDate);
@@ -140,15 +141,20 @@ const AppointmentDetails = ({ appointment, updateAppointments }) => {
 
     return (
         <div className="appointment-details">
+            <div className="appointment-grid">
             <h4>{new Date(appointment.pickupDate).toLocaleDateString('en-GB')}</h4>
             <p>
-                <strong>Number of Passengers:</strong> {appointment.numberOfPassengers}
+                <strong>PickupLocation:</strong> {appointment.pickupLocation}
+            </p>
+            <p>
+                <strong>Destination:</strong> {appointment.destination}
             </p>
             <div className="button-group">
                 <span className='material-symbols-outlined' onClick={handleClick}>🗑️</span>
                 <span className='material-symbols-outlined' style={{ cursor: 'pointer', marginRight: '45px' }} onClick={handleEdit} >🖊️</span>
+                <button onClick={() => setModalIsOpen(true)}>View Details</button>
             </div>
-            <button onClick={() => setModalIsOpen(true)}>View Details</button>
+            
             <Modal isOpen={modalIsOpen} onRequestClose={() => setModalIsOpen(false)}>
                 <button style={{
                     position: 'absolute',
@@ -218,6 +224,19 @@ const AppointmentDetails = ({ appointment, updateAppointments }) => {
                 </div>
             )}
             {editMode ? (
+                console.log("modal"),
+                <Modal isOpen={modalIsOpen} onRequestClose={() => setModalIsOpen(false)}>
+                <button style={{
+                    position: 'absolute',
+                    top: '10px',
+                    right: '10px',
+                    background: 'none',
+                    border: 'none',
+                    cursor: 'pointer',
+                    fontSize: '1.5rem',
+                    color: '#555',
+                    zIndex: '9999', // Ensure it appears above the modal content
+                }} onClick={() => setModalIsOpen(false)}>✖</button>
                 <div className="edit-form container">
                     <form className="create" onSubmit={handleSubmit}>
                         <h3>Edit Appointment</h3>
@@ -310,9 +329,11 @@ const AppointmentDetails = ({ appointment, updateAppointments }) => {
                         <button onClick={handleCancel}>Cancel</button>
                     </form>
                 </div>
+                </Modal>
             ) : null}
             {error && <div className="error">{error}</div>}
             {successMessage && <div className="success">{successMessage}</div>}
+        </div>
         </div>
     );
 };

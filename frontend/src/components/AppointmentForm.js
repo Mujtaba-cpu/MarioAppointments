@@ -207,13 +207,20 @@ const AppointmentForm = ({ updateAppointments }) => {
 
             <label>Pickup Location</label>
             <input
-                type='text'
-                value={pickupLocation} onChange={(e) => setPickupLocation(e.target.value)}
+                type="text"
+                id="pickupLocation"
+                value={pickupLocation}
+                onChange={(e) => setPickupLocation(e.target.value)}
                 required
             />
 
             {searchResultsPickup.length > 0 && (
-                <select onChange={(e) => setPickupLocation(e.target.value)}>
+                <select
+                    id="pickupLocationSelect"
+                    onChange={(e) => setPickupLocation(e.target.value)}
+                    value={pickupLocation}
+                >
+                    <option value="">Select a location</option>
                     {searchResultsPickup.map((result) => (
                         <option key={result.place_id} value={result.display_name}>{result.display_name}</option>
                     ))}
@@ -228,7 +235,12 @@ const AppointmentForm = ({ updateAppointments }) => {
             />
 
             {searchResultsDestination.length > 0 && (
-                <select onChange={(e) => setDestination(e.target.value)}>
+                <select
+                    id="DestinationSelect"
+                    onChange={(e) => setDestination(e.target.value)}
+                    value={destination}
+                >
+                    <option value="">Select the destination</option>
                     {searchResultsDestination.map((result) => (
                         <option key={result.place_id} value={result.display_name}>{result.display_name}</option>
                     ))}
@@ -266,7 +278,12 @@ const AppointmentForm = ({ updateAppointments }) => {
                     <label>Return Location</label>
                     <input type='text' value={returnLocation} onChange={(e) => setReturnLocation(e.target.value)} required />
                     {searchResultsReturn.length > 0 && (
-                        <select onChange={(e) => setReturnLocation(e.target.value)}>
+                        <select
+                            id="ReturnLocationSelect"
+                            onChange={(e) => setReturnLocation(e.target.value)}
+                            value={returnLocation}
+                        >
+                            <option value="">Select the Return Location</option>
                             {searchResultsReturn.map((result) => (
                                 <option key={result.place_id} value={result.display_name}>{result.display_name}</option>
                             ))}
@@ -276,7 +293,12 @@ const AppointmentForm = ({ updateAppointments }) => {
                     <label>Return Destination</label>
                     <input type='text' value={returnDestination} onChange={(e) => setReturnDestination(e.target.value)} required />
                     {searchResultsReturnDestination.length > 0 && (
-                        <select onChange={(e) => setReturnDestination(e.target.value)}>
+                        <select
+                            id="ReturnDestinationSelect"
+                            onChange={(e) => setReturnDestination(e.target.value)}
+                            value={returnDestination}
+                        >
+                            <option value="">Select the Return Destination</option>
                             {searchResultsReturnDestination.map((result) => (
                                 <option key={result.place_id} value={result.display_name}>{result.display_name}</option>
                             ))}
