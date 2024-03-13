@@ -146,25 +146,25 @@ const AppointmentDetails = ({ appointment, updateAppointments }) => {
             <div className="appointment-grid">
                 <h4>{new Date(appointment.pickupDate).toLocaleDateString('en-GB')}</h4>
                 <p>
-                    <strong>PickupLocation:</strong> <br/> {appointment.pickupLocation}
+                    <strong>PickupLocation:</strong> <br /> {appointment.pickupLocation}
                 </p>
                 <p>
-                    <strong>Destination:</strong> <br/> {appointment.destination}
+                    <strong>Destination:</strong> <br /> {appointment.destination}
                 </p>
                 <p>
-                    <strong>Customer Name:</strong> <br/> {appointment.customerName}
+                    <strong>Customer Name:</strong> <br /> {appointment.customerName}
                 </p>
                 <p>
-                    <strong>Number of Passengers:</strong> <br/> {appointment.numberOfPassengers}
+                    <strong>Number of Passengers:</strong> <br /> {appointment.numberOfPassengers}
                 </p>
-                <div className="button-group">
-                    <button  onClick={handleClick}>Delete</button>
-                    <button  style={{marginLeft: '10px'}} onClick={handleEdit} >Edit</button>
-                </div>
                 <div>
-                    
-                    <button  onClick={() => setModalIsOpen(true)}>View Details</button>
+                    <button onClick={() => setModalIsOpen(true)}>View Details</button>
                 </div>
+                <div className="button-group">
+                    <button onClick={handleClick}>Delete</button>
+                    <button style={{ marginLeft: '10px' }} onClick={handleEdit} >Edit</button>
+                </div>
+
 
                 <Modal isOpen={modalIsOpen} onRequestClose={() => setModalIsOpen(false)}>
                     <button style={{
@@ -229,7 +229,7 @@ const AppointmentDetails = ({ appointment, updateAppointments }) => {
                     )}
 
                 </Modal>
-                
+
                 {editMode ? (
                     console.log("modal"),
                     <Modal isOpen={modalIsOpen} onRequestClose={() => setModalIsOpen(false)}>
@@ -247,7 +247,7 @@ const AppointmentDetails = ({ appointment, updateAppointments }) => {
                         <div className="edit-form container">
                             <form className="create" onSubmit={handleSubmit}>
                                 <h3>Edit Appointment</h3>
-                                
+
                                 <label>Pickup Date:</label>
                                 <input
                                     type="date"
@@ -345,18 +345,18 @@ const AppointmentDetails = ({ appointment, updateAppointments }) => {
                                 <button onClick={handleCancel}>Cancel</button>
                             </form>
                         </div>
-                        
+
                     </Modal>
                 ) : null}
 
             </div>
             {deleteSuccess && (
-                    <div className="success">
-                        Appointment deleted successfully
-                    </div>
-                )}
+                <div className="success">
+                    Appointment deleted successfully
+                </div>
+            )}
             {error && <div className="error">{error}</div>}
-                        {successMessage && <div className="success">{successMessage}</div>}
+            {successMessage && <div className="success">{successMessage}</div>}
         </div>
     );
 };
