@@ -184,12 +184,17 @@ const AppointmentDetails = ({ appointment, updateAppointments }) => {
                         zIndex: '9999', // Ensure it appears above the modal content
                     }} onClick={() => setModalIsOpen(false)}>✖</button>
                     <h4 style={{ color: '#e96914' }}>{new Date(appointment.pickupDate).toLocaleDateString('en-GB')}</h4>
+                    {appointment.customerName && (
                     <p>
                         <strong >Customer Name:</strong> {appointment.customerName}
                     </p>
-                    <p>
+                    )}
+                    {appointment.email && (
+                        <p>
                         <strong >Email:</strong> {appointment.email}
                     </p>
+                    )}
+                    
                     <p>
                         <strong >Appointment created by:</strong> {appointment.username}
                     </p>
@@ -221,12 +226,17 @@ const AppointmentDetails = ({ appointment, updateAppointments }) => {
                             </p>
                         </>
                     )}
-                    <p>
-                        <strong>Contact Number:</strong> {appointment.contactNumber}
-                    </p>
-                    <p>
-                        <strong>Price Quote:</strong> £ {appointment.priceQuote}
-                    </p>
+                    {appointment.priceQuote && (
+                        <p>
+                            <strong>Contact Number:</strong> {appointment.contactNumber}
+                        </p>
+                    )}
+
+                    {appointment.priceQuote && (
+                        <p>
+                            <strong>Price Quote:</strong> £ {appointment.priceQuote}
+                        </p>
+                    )}
                     {appointment.adInfo && (
                         <p>
                             <strong>Additional Information:</strong> {appointment.adInfo}
