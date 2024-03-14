@@ -32,7 +32,7 @@ const appointmentController = {
     try {
       const appointments = await Appointment.find({
         pickupDate: { $gte: startDate, $lte: endDate }
-      }).sort({ pickupDate: -1 });
+      }).sort({ pickupDate: 1 });
 
       res.status(200).json({ appointments });
     } catch (err) {
