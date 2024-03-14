@@ -335,8 +335,8 @@ const AppointmentDetails = ({ appointment, updateAppointments }) => {
                                         <input
                                             type="date"
                                             id="returnDate"
-                                            value={returnDate.substring(0, 10)}
-                                            onChange={(e) => setPickupDate(e.target.value)}
+                                            value={returnDate ? returnDate.substring(0, 10) : ''}
+                                            onChange={(e) => setReturnDate(e.target.value)}
                                         />
                                         <label>Return Location:</label>
                                         <input
