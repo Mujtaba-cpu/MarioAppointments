@@ -147,7 +147,7 @@ const AppointmentForm = ({ updateAppointments }) => {
             setPriceQuote('');
             setEmail('');
             setCustomerName('');
-            setSuccessMessage('Appointment created successfully');
+            setSuccessMessage('Booking created successfully');
             updateAppointments();
             setTimeout(() => {
                 setSuccessMessage('');
@@ -157,7 +157,7 @@ const AppointmentForm = ({ updateAppointments }) => {
 
     return (
         <form className='create' onSubmit={handleSubmit}>
-            <h3>Create a new appointment, {username}!</h3>
+            <h3>Create a new booking, {username}!</h3>
 
             <label>Customer Name</label>
             <input
@@ -306,7 +306,7 @@ const AppointmentForm = ({ updateAppointments }) => {
                 </>
             )}
 
-            <button>Add Appointment</button>
+            <button>Add Booking</button>
             {error && <div className='error'>{error}</div>}
             {successMessage && <div className='success'>{successMessage}</div>}
         </form>

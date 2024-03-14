@@ -36,7 +36,7 @@ const AppointmentDetails = ({ appointment, updateAppointments }) => {
                 setDeleteSuccess(false);
             }, 5000);
         } else {
-            setError('Failed to delete appointment');
+            setError('Failed to delete Booking');
         }
     };
 
@@ -132,7 +132,7 @@ const AppointmentDetails = ({ appointment, updateAppointments }) => {
             setPriceQuote('');
             setEmail('');
             setCustomerName('');
-            setSuccessMessage('Appointment updated successfully');
+            setSuccessMessage('Booking updated successfully');
             setEditMode(false);
             updateAppointments();
             setTimeout(() => {
@@ -367,7 +367,7 @@ const AppointmentDetails = ({ appointment, updateAppointments }) => {
             </div>
             {deleteSuccess && (
                 <div className="success">
-                    Appointment deleted successfully
+                    Booking deleted successfully
                 </div>
             )}
             {error && <div className="error">{error}</div>}

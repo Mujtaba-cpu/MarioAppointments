@@ -5,16 +5,16 @@ const Landing = () => {
     const { username } = useParams();
     return (
         <div>
-            <h1>Welcome to the Appointments, {username}!</h1>
+            <h1>Welcome to the Mario Bookings, {username}!</h1>
             <p>
-                Book an appointment or view existing appointments
+                Book or view existing Bookings
             </p>
             <Link to={`/appointments/${username}`}>
-                <button style={{ marginRight: '10px', marginBottom: '10px' }}>View Appointments</button>
+                <button style={{ marginRight: '10px', marginBottom: '10px' }}>View Bookings</button>
             </Link>
 
             <Link to={`/add-appointment/${username}`}>
-                <button>Add Appointments</button>
+                <button>Add Bookings</button>
             </Link>
 
         </div>

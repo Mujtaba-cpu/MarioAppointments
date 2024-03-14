@@ -5,7 +5,7 @@ const Navbar = ({ username }) => {
     <header>
       <div className="container">
         <Link to={`/`}>
-          <h1>Mario Appointments</h1>
+          <h1>Mario Bookings</h1>
         </Link>
       </div>
     </header>

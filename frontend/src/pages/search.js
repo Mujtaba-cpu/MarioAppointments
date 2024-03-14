@@ -94,7 +94,7 @@ const Search = () => {
                 )}
             </div>
 
-             <button style={{ marginRight: '10px' }} onClick={handleFetchButtonClick}>Fetch Appointments</button>
+             <button style={{ marginRight: '10px' }} onClick={handleFetchButtonClick}>Fetch Bookings</button>
             {/* <button onClick={fetchAppointments}>View All</button> */}
 
             <div className='workouts'>

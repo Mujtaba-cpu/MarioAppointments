@@ -22,8 +22,7 @@ const AddAppointment = () => {
     };
     return (
         <div className="add-appointment">
-            <h2>Add Appointment</h2>
-            <h2>Welcome to the Appointments</h2>
+            <h2>Add Bookings</h2>
             <AppointmentForm updateAppointments={updateAppointments} />
         </div>
     );
