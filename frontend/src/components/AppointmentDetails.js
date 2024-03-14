@@ -26,6 +26,8 @@ const AppointmentDetails = ({ appointment, updateAppointments }) => {
     const [successMessage, setSuccessMessage] = useState('');
     const [modalIsOpen, setModalIsOpen] = useState(false);
 
+    
+
     const handleClick = async () => {
         const response = await fetch(`https://mario-appointments-server.vercel.app/appointments/${appointment._id}`, {
             method: 'DELETE'
@@ -146,10 +148,37 @@ const AppointmentDetails = ({ appointment, updateAppointments }) => {
         }
     };
 
+    function formatDate(dateString) {
+        const date = new Date(dateString);
+        const day = date.getDate();
+        const month = date.toLocaleString('default', { month: 'long' });
+        const year = date.getFullYear().toString().slice(-2); // Extract last two digits of the year
+    
+        // Function to get the ordinal suffix for the day
+        function getOrdinalSuffix(day) {
+            if (day >= 11 && day <= 13) {
+                return 'th';
+            }
+            switch (day % 10) {
+                case 1: return 'st';
+                case 2: return 'nd';
+                case 3: return 'rd';
+                default: return 'th';
+            }
+        }
+    
+        const ordinalSuffix = getOrdinalSuffix(day);
+    
+        return `${day}${ordinalSuffix} ${month}, ${year}`;
+    };
+    
+    
+    
+
     return (
         <div className="appointment-details">
             <div className="appointment-grid">
-                <h4>{new Date(appointment.pickupDate).toLocaleDateString('en-GB')}</h4>
+                <h4>{formatDate(appointment.pickupDate)}</h4>
                 <p>
                     <strong>Customer Name:</strong> <br /> {appointment.customerName}
                 </p>
