@@ -303,7 +303,7 @@ const AppointmentForm = ({ updateAppointments }) => {
                     <input
                         type='date'
                         value={returnDate}
-                        onChange={(e) => setReturnTime(e.target.value)}
+                        onChange={(e) => setReturnDate(e.target.value)}
                         required
                     />
 
