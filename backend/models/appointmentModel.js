@@ -40,7 +40,7 @@ const appointmentSchema = new mongoose.Schema({
       },
     },
     returnDate: {
-      type: date,
+      type: Date,
       required: function () {
         return this.isReturn;
       },
