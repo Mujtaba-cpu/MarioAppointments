@@ -39,6 +39,12 @@ const appointmentSchema = new mongoose.Schema({
         return this.isReturn;
       },
     },
+    returnDate: {
+      type: date,
+      required: function () {
+        return this.isReturn;
+      },
+    },
     returnLocation: {
       type: String,
       required: function () {

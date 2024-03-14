@@ -44,7 +44,7 @@ const appointmentController = {
 
   //create new appointment
   async createAppointment(req, res) {
-    const { numberOfPassengers, isReturn, pickupDate, pickupTime, pickupLocation, destination, returnTime,
+    const { numberOfPassengers, isReturn, pickupDate, pickupTime, pickupLocation, destination, returnTime, returnDate,
       returnLocation, returnDestination, contactNumber, adInfo, priceQuote, email, username, customerName } = req.body;
 
 
@@ -56,6 +56,7 @@ const appointmentController = {
     if (!pickupLocation) emptyFields.push('pickupLocation');
     if (!destination) emptyFields.push('destination');
     if (isReturn && !returnTime) emptyFields.push('returnTime');
+    if (isReturn && !returnDate) emptyFields.push('returnDate');
     if (isReturn && !returnLocation) emptyFields.push('returnLocation');
     if (isReturn && !returnDestination) emptyFields.push('returnDestination');
     if (typeof contactNumber === 'undefined' && contactNumber === '') emptyFields.push('contactNumber');
@@ -69,7 +70,7 @@ const appointmentController = {
     }
 
     try {
-      const appointment = await Appointment.create({ numberOfPassengers, isReturn, pickupDate, pickupTime, pickupLocation, destination, returnTime, returnLocation, returnDestination, contactNumber, adInfo, priceQuote, email, username, customerName});
+      const appointment = await Appointment.create({ numberOfPassengers, isReturn, pickupDate, pickupTime, pickupLocation, destination, returnTime, returnDate, returnLocation, returnDestination, contactNumber, adInfo, priceQuote, email, username, customerName});
       res.status(200).json({ appointment });
     } catch (err) {
       res.status(400).json({ error: err.message });
@@ -100,6 +101,7 @@ const appointmentController = {
       appointment.pickupLocation = req.body.pickupLocation;
       appointment.destination = req.body.destination;
       appointment.returnTime = req.body.returnTime;
+      appointment.returnDate = req.body.returnDate;
       appointment.returnLocation = req.body.returnLocation;
       appointment.returnDestination = req.body.returnDestination;
       appointment.contactNumber = req.body.contactNumber;

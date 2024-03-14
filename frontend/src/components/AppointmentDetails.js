@@ -13,6 +13,7 @@ const AppointmentDetails = ({ appointment, updateAppointments }) => {
     const [pickupLocation, setPickupLocation] = useState('');
     const [destination, setDestination] = useState('');
     const [returnTime, setReturnTime] = useState('');
+    const [returnDate, setReturnDate] = useState('');
     const [returnLocation, setReturnLocation] = useState('');
     const [returnDestination, setReturnDestination] = useState('');
     const [contactNumber, setContactNumber] = useState('');
@@ -51,6 +52,7 @@ const AppointmentDetails = ({ appointment, updateAppointments }) => {
         setPickupLocation(appointment.pickupLocation);
         setDestination(appointment.destination);
         setReturnTime(appointment.returnTime);
+        setReturnDate(appointment.returnDate);
         setReturnLocation(appointment.returnLocation);
         setReturnDestination(appointment.returnDestination);
         setContactNumber(appointment.contactNumber);
@@ -72,6 +74,7 @@ const AppointmentDetails = ({ appointment, updateAppointments }) => {
         setPickupLocation('');
         setDestination('');
         setReturnTime('');
+        setReturnDate('');
         setReturnLocation('');
         setReturnDestination('');
         setContactNumber('');
@@ -99,6 +102,7 @@ const AppointmentDetails = ({ appointment, updateAppointments }) => {
                 pickupLocation,
                 destination,
                 returnTime,
+                returnDate,
                 returnLocation,
                 returnDestination,
                 contactNumber,
@@ -125,6 +129,7 @@ const AppointmentDetails = ({ appointment, updateAppointments }) => {
             setPickupLocation('');
             setDestination('');
             setReturnTime('');
+            setReturnDate('');
             setReturnLocation('');
             setReturnDestination('');
             setContactNumber('');
@@ -185,16 +190,16 @@ const AppointmentDetails = ({ appointment, updateAppointments }) => {
                     }} onClick={() => setModalIsOpen(false)}>✖</button>
                     <h4 style={{ color: '#e96914' }}>{new Date(appointment.pickupDate).toLocaleDateString('en-GB')}</h4>
                     {appointment.customerName && (
-                    <p>
-                        <strong >Customer Name:</strong> {appointment.customerName}
-                    </p>
+                        <p>
+                            <strong >Customer Name:</strong> {appointment.customerName}
+                        </p>
                     )}
                     {appointment.email && (
                         <p>
-                        <strong >Email:</strong> {appointment.email}
-                    </p>
+                            <strong >Email:</strong> {appointment.email}
+                        </p>
                     )}
-                    
+
                     <p>
                         <strong >Appointment created by:</strong> {appointment.username}
                     </p>
@@ -219,6 +224,9 @@ const AppointmentDetails = ({ appointment, updateAppointments }) => {
                                 <strong>Return Time:</strong> {appointment.returnTime}
                             </p>
                             <p>
+                                <strong>Return Date:</strong> {appointment.returnDate}
+                            </p>
+                            <p>
                                 <strong>Return Location:</strong> {appointment.returnLocation}
                             </p>
                             <p>
@@ -226,7 +234,7 @@ const AppointmentDetails = ({ appointment, updateAppointments }) => {
                             </p>
                         </>
                     )}
-                    {appointment.priceQuote && (
+                    {appointment.contactNumber && (
                         <p>
                             <strong>Contact Number:</strong> {appointment.contactNumber}
                         </p>
@@ -322,6 +330,13 @@ const AppointmentDetails = ({ appointment, updateAppointments }) => {
                                             type="time"
                                             value={returnTime}
                                             onChange={(e) => setReturnTime(e.target.value)}
+                                        />
+                                        <label>Return Date:</label>
+                                        <input
+                                            type="date"
+                                            id="returnDate"
+                                            value={returnDate.substring(0, 10)}
+                                            onChange={(e) => setPickupDate(e.target.value)}
                                         />
                                         <label>Return Location:</label>
                                         <input

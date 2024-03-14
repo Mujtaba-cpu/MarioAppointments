@@ -12,6 +12,7 @@ const AppointmentForm = ({ updateAppointments }) => {
     const [pickupLocation, setPickupLocation] = useState('');
     const [destination, setDestination] = useState('');
     const [returnTime, setReturnTime] = useState('');
+    const [returnDate, setReturnDate] = useState('');
     const [returnLocation, setReturnLocation] = useState('');
     const [returnDestination, setReturnDestination] = useState('');
     const [contactNumber, setContactNumber] = useState('');
@@ -114,7 +115,7 @@ const AppointmentForm = ({ updateAppointments }) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         console.log('pickupTime', pickupTime);
-        const appointment = { numberOfPassengers, isReturn, pickupDate, pickupTime, pickupLocation, destination, returnTime, returnLocation, returnDestination, contactNumber, adInfo, priceQuote, email, username, customerName };
+        const appointment = { numberOfPassengers, isReturn, pickupDate, pickupTime, pickupLocation, destination, returnTime, returnDate, returnLocation, returnDestination, contactNumber, adInfo, priceQuote, email, username, customerName };
         console.log('appointment', username)
         console.log('appointment', appointment)
         const response = await fetch('https://mario-appointments-server.vercel.app/appointments', {
@@ -140,6 +141,7 @@ const AppointmentForm = ({ updateAppointments }) => {
             setPickupLocation('');
             setDestination('');
             setReturnTime('');
+            setReturnDate('');
             setReturnLocation('');
             setReturnDestination('');
             setContactNumber('');
@@ -173,7 +175,7 @@ const AppointmentForm = ({ updateAppointments }) => {
                 placeholder='Enter email'
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                
+
             />
 
 
@@ -245,15 +247,33 @@ const AppointmentForm = ({ updateAppointments }) => {
                     ))}
                 </select>
             )}
+
             <label>Contact Number</label>
-            <input type='text' value={contactNumber} onChange={(e) => setContactNumber(e.target.value)}  />
+            <input
+                type='text'
+                value={contactNumber}
+                onChange={(e) => setContactNumber(e.target.value)}
+            />
+
             <label>Price Quote</label>
             <div style={{ position: 'relative' }}>
                 <span style={{ position: 'absolute', top: '50%', transform: 'translateY(-50%)', left: '8px' }}>£</span>
-                <input type='number' placeholder="00.00" style={{ paddingLeft: '20px' }} value={priceQuote} onChange={(e) => setPriceQuote(e.target.value)}  />
+                <input
+                    type='number'
+                    placeholder="00.00"
+                    style={{ paddingLeft: '20px' }}
+                    value={priceQuote}
+                    onChange={(e) => setPriceQuote(e.target.value)}
+                />
             </div>
+
             <label>Additional Information</label>
-            <input type='text' value={adInfo} onChange={(e) => setAdInfo(e.target.value)} />
+            <input
+                type='text'
+                value={adInfo}
+                onChange={(e) => setAdInfo(e.target.value)}
+            />
+
             <FormControlLabel
                 control={
                     <Checkbox
@@ -272,10 +292,28 @@ const AppointmentForm = ({ updateAppointments }) => {
             {isReturn && (
                 <>
                     <label>Return Time</label>
-                    <input type='time' value={returnTime} onChange={(e) => setReturnTime(e.target.value)} required />
+                    <input
+                        type='time'
+                        value={returnTime}
+                        onChange={(e) => setReturnTime(e.target.value)}
+                        required
+                    />
+
+                    <label>Return Date</label>
+                    <input
+                        type='date'
+                        value={returnDate}
+                        onChange={(e) => setReturnTime(e.target.value)}
+                        required
+                    />
 
                     <label>Return Location</label>
-                    <input type='text' value={returnLocation} onChange={(e) => setReturnLocation(e.target.value)} required />
+                    <input
+                        type='text'
+                        value={returnLocation}
+                        onChange={(e) => setReturnLocation(e.target.value)}
+                        required
+                    />
                     {searchResultsReturn.length > 0 && (
                         <select
                             id="ReturnLocationSelect"
@@ -290,7 +328,12 @@ const AppointmentForm = ({ updateAppointments }) => {
                     )}
 
                     <label>Return Destination</label>
-                    <input type='text' value={returnDestination} onChange={(e) => setReturnDestination(e.target.value)} required />
+                    <input
+                        type='text'
+                        value={returnDestination}
+                        onChange={(e) => setReturnDestination(e.target.value)}
+                        required
+                    />
                     {searchResultsReturnDestination.length > 0 && (
                         <select
                             id="ReturnDestinationSelect"
