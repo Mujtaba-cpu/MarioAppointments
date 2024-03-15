@@ -87,10 +87,9 @@ const Home = () => {
         fetchAppointments();
     };
     return (
-        <div className="home">
+        <div className="custom-search">
             <div className="workouts">
                 <h2>Welcome to Custom Search</h2>
-                <button onClick={() => window.location.href = '/search'}>Search by Date</button>
 
                 <select value={field} onChange={(e) => setField(e.target.value)}>
                     <option value="">Select the field you want to search on</option>
@@ -122,8 +121,6 @@ const Home = () => {
                 )}
 
                 <button onClick={fetchAppointments}>Search</button>
-
-                <h2>{field}</h2>
 
                 {appointments &&
                     appointments.map(appointment => (

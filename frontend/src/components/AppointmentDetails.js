@@ -152,7 +152,7 @@ const AppointmentDetails = ({ appointment, updateAppointments }) => {
         const date = new Date(dateString);
         const day = date.getDate();
         const month = date.toLocaleString('default', { month: 'long' });
-        const year = date.getFullYear().toString().slice(-2); // Extract last two digits of the year
+        const year = date.getFullYear().toString(); // Extract last two digits of the year
     
         // Function to get the ordinal suffix for the day
         function getOrdinalSuffix(day) {

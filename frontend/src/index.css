@@ -326,6 +326,9 @@ z-index: 9999; /* Ensure it appears above the modal content */
     align-items: center;
     justify-content: space-around;
   }
+  .appointment-details .button-group button {
+    white-space: nowrap; /* Adjusted for mobile */
+  }
   .appointment-grid {
     display: grid;
     grid-template-columns: repeat(1, 1fr); /* Single column layout for mobile */
@@ -350,15 +353,20 @@ z-index: 9999; /* Ensure it appears above the modal content */
   }
 
   /*search*/
-  .seach-box {
-    background-color: #1aac83 !important;
+  .seach-box select,
+  .seach-box button{
+    width: calc(100% - 20px);
+    margin-right: 10px;
+    margin-left: 10px;
+  }
+    /* background-color: #1aac83 !important;
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 100%;
-  }
+    width: calc(100% - 20px);
+  } */
   .search-form-container {
-    width: max; /* Set width to 80% of the screen */
+    width: calc(100% - 20px); /* Set width to 80% of the screen */
   }
   .search-form-container input[type="date"]{
     width: 100%; /* Make input fields full width */
@@ -378,5 +386,12 @@ z-index: 9999; /* Ensure it appears above the modal content */
     padding: 10px; /* Adjust padding for better spacing */
     box-sizing: border-box; /* Include padding and border in the width */
     margin-bottom: 10px; /* Add margin between input fields */
+  }
+  .custom-search select,
+  .custom-search input[type="text"],
+  .custom-search button {
+    width: calc(100% - 20px);
+    margin-right: 10px;
+    margin-left: 10px;
   }
 }
