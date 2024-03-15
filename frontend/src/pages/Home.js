@@ -5,74 +5,78 @@ import AppointmentDetails from "../components/AppointmentDetails";
 
 const Home = () => {
     const [field, setField] = useState('');
+    const [customerName, setCustomerName] = useState('');
+    const [pickupLocation, setPickupLocation] = useState('');
+    const [destination, setDestination] = useState('');
+    const [username, setUsername] = useState('');
     const [appointments, setAppointments] = useState(null);
 
     const fetchAppointments = async () => {
-       if(field === 'customerName'){
-           const response = await fetch('https://mario-appointments-server.vercel.app/appointments/search/customerName', {
-               method: 'POST',
-               headers: {
-                   'Content-Type': 'application/json',
-               },
-               body: JSON.stringify({ field }),
-           });
-           const json = await response.json();
-           if (response.ok) {
-               if (json.appointments && Array.isArray(json.appointments)) {
-                   setAppointments(json.appointments);
-               } else {
-                   console.error('Data from server is not in the expected format' + JSON.stringify(json));
-               }
-           }
-       } else if(field === 'pickupLocation'){
-              const response = await fetch('https://mario-appointments-server.vercel.app/appointments/search/pickupLocation', {
+        if (field === 'customerName') {
+            const response = await fetch('https://mario-appointments-server.vercel.app/appointments/search', {
                 method: 'POST',
                 headers: {
-                     'Content-Type': 'application/json',
+                    'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ field }),
-              });
-              const json = await response.json();
-              if (response.ok) {
+                body: JSON.stringify({ field , customerName }),
+            });
+            const json = await response.json();
+            if (response.ok) {
                 if (json.appointments && Array.isArray(json.appointments)) {
-                     setAppointments(json.appointments);
+                    setAppointments(json.appointments);
                 } else {
-                     console.error('Data from server is not in the expected format' + JSON.stringify(json));
+                    console.error('Data from server is not in the expected format' + JSON.stringify(json));
                 }
-              }
-         } else if(field === 'destination'){
-              const response = await fetch('https://mario-appointments-server.vercel.app/appointments/search/destination', {
+            }
+        } else if (field === 'pickupLocation') {
+            const response = await fetch('https://mario-appointments-server.vercel.app/appointments/search', {
                 method: 'POST',
                 headers: {
-                     'Content-Type': 'application/json',
+                    'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ field }),
-              });
-              const json = await response.json();
-              if (response.ok) {
+                body: JSON.stringify({ field, pickupLocation }),
+            });
+            const json = await response.json();
+            if (response.ok) {
                 if (json.appointments && Array.isArray(json.appointments)) {
-                     setAppointments(json.appointments);
+                    setAppointments(json.appointments);
                 } else {
-                     console.error('Data from server is not in the expected format' + JSON.stringify(json));
+                    console.error('Data from server is not in the expected format' + JSON.stringify(json));
                 }
-              }
-         } else if(field === 'username'){
-              const response = await fetch('https://mario-appointments-server.vercel.app/appointments/search/username', {
+            }
+        } else if (field === 'destination') {
+            const response = await fetch('https://mario-appointments-server.vercel.app/appointments/search', {
                 method: 'POST',
                 headers: {
-                     'Content-Type': 'application/json',
+                    'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ field }),
-              });
-              const json = await response.json();
-              if (response.ok) {
+                body: JSON.stringify({ field, destination }),
+            });
+            const json = await response.json();
+            if (response.ok) {
                 if (json.appointments && Array.isArray(json.appointments)) {
-                     setAppointments(json.appointments);
+                    setAppointments(json.appointments);
                 } else {
-                     console.error('Data from server is not in the expected format' + JSON.stringify(json));
+                    console.error('Data from server is not in the expected format' + JSON.stringify(json));
                 }
-              }
-         }
+            }
+        } else if (field === 'username') {
+            const response = await fetch('https://mario-appointments-server.vercel.app/appointments/search', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ field, username }),
+            });
+            const json = await response.json();
+            if (response.ok) {
+                if (json.appointments && Array.isArray(json.appointments)) {
+                    setAppointments(json.appointments);
+                } else {
+                    console.error('Data from server is not in the expected format' + JSON.stringify(json));
+                }
+            }
+        }
     };
 
     useEffect(() => {
@@ -95,6 +99,29 @@ const Home = () => {
                     <option value="destination">Destination</option>
                     <option value="username">Created by</option>
                 </select>
+
+                {field === 'customerName' && (
+                    <>
+                        <input placeholder="Input Customer Name" type="text" value={customerName} onChange={(e) => setCustomerName(e.target.value)} />
+                    </>
+                )}
+                {field === 'pickupLocation' && (
+                    <>
+                        <input placeholder="Input Pickup Location" type="text" value={pickupLocation} onChange={(e) => setPickupLocation(e.target.value)} />
+                    </>
+                )}
+                {field === 'destination' && (
+                    <>
+                        <input placeholder="Input Destination" type="text" value={destination} onChange={(e) => setDestination(e.target.value)} />
+                    </>
+                )}
+                {field === 'username' && (
+                    <>
+                        <input placeholder="Input username" type="text" value={username} onChange={(e) => setUsername(e.target.value)} />
+                    </>
+                )}
+
+                <button onClick={fetchAppointments}>Search</button>
 
                 <h2>{field}</h2>
 

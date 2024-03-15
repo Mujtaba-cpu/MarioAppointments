@@ -42,18 +42,19 @@ const appointmentController = {
 
   //get appointments by a specific field
   async getAppointmentsByField(req, res) {
-    const { field } = req.body;
+    
+    const { field , customerName, pickupLocation, destination, username} = req.body;
     if (field === 'customerName') {
-      const appointments = await Appointment.find({ customerName: field }).sort({ createdAt: -1 });
+      const appointments = await Appointment.find({ customerName: customerName }).sort({ createdAt: -1 });
       res.status(200).json({ appointments });
     } else if (field === 'pickupLocation') {
-      const appointments = await Appointment.find({ pickupLocation: field }).sort({ createdAt: -1 });
+      const appointments = await Appointment.find({ pickupLocation: pickupLocation }).sort({ createdAt: -1 });
       res.status(200).json({ appointments });
     } else if (field === 'destination') {
-      const appointments = await Appointment.find({ destination: field }).sort({ createdAt: -1 });
+      const appointments = await Appointment.find({ destination: destination }).sort({ createdAt: -1 });
       res.status(200).json({ appointments });
     } else if (field === 'username') {
-      const appointments = await Appointment.find({ username: field }).sort({ createdAt: -1 });
+      const appointments = await Appointment.find({ username: username }).sort({ createdAt: -1 });
       res.status(200).json({ appointments });
     } else {
       res.status(400).json({ message: 'Invalid field' });
