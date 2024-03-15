@@ -191,7 +191,9 @@ const AppointmentDetails = ({ appointment, updateAppointments }) => {
 
                 <p>
                     <strong>Number of Passengers:</strong> <br /> {appointment.numberOfPassengers}
+                    
                 </p>
+                <p/>
 
 
 
