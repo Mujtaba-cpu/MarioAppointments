@@ -14,6 +14,17 @@ const Search = () => {
     const updateAppointments = () => {
         fetchAppointmentsByDateRange(range);
     };
+    const fetchAppointments = async () => {
+        const response = await fetch('https://mario-appointments-server.vercel.app/appointments');
+        const json = await response.json();
+        if (response.ok) {
+            if (json.appointments && Array.isArray(json.appointments)) {
+                setAppointments(json.appointments);
+            } else {
+                console.error('Data from server is not in the expected format' + JSON.stringify(json));
+            }
+        }
+    };
     const fetchAppointmentsByDateRange = async (range) => {
         const currentDate = new Date();
         let startDate, endDate;
@@ -38,6 +49,9 @@ const Search = () => {
             startDate = start;
             endDate = end;
             console.log(startDate, endDate);
+        } else if (range === 'all') {
+            fetchAppointments();
+            return;
         }
 
         const response = await fetch('https://mario-appointments-server.vercel.app/appointments/date', {
@@ -85,6 +99,7 @@ const Search = () => {
                     <option value="thisWeek">This Week</option>
                     <option value="thisMonth">This Month</option>
                     <option value="customRange">Custom Range</option>
+                    <option value="all">All</option>
                 </select>
 
                 {range === 'customRange' && (
