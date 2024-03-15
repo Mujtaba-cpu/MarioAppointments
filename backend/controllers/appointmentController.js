@@ -48,13 +48,13 @@ const appointmentController = {
       const appointments = await Appointment.find({ customerName: { $regex: new RegExp(customerName, 'i') } }).sort({ createdAt: -1 });
       res.status(200).json({ appointments });
     } else if (field === 'pickupLocation') {
-      const appointments = await Appointment.find({ pickupLocation: pickupLocation }).sort({ createdAt: -1 });
+      const appointments = await Appointment.find({ pickupLocation: { $regex: new RegExp(pickupLocation, 'i') } }).sort({ createdAt: -1 });
       res.status(200).json({ appointments });
     } else if (field === 'destination') {
-      const appointments = await Appointment.find({ destination: destination }).sort({ createdAt: -1 });
+      const appointments = await Appointment.find({ destination: { $regex: new RegExp(destination, 'i') } }).sort({ createdAt: -1 });
       res.status(200).json({ appointments });
     } else if (field === 'username') {
-      const appointments = await Appointment.find({ username: username }).sort({ createdAt: -1 });
+      const appointments = await Appointment.find({ username: { $regex: new RegExp(username, 'i') } }).sort({ createdAt: -1 });
       res.status(200).json({ appointments });
     } else {
       res.status(400).json({ message: 'Invalid field' });
