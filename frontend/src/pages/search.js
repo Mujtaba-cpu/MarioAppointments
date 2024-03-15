@@ -9,23 +9,33 @@ const Search = () => {
     const [start, setStart] = useState('');
     const [end, setEnd] = useState('');
     const [range, setRange] = useState('today');
+    const [error, setError] = useState(null);   
 
 
     const updateAppointments = () => {
         fetchAppointmentsByDateRange(range);
     };
     const fetchAppointments = async () => {
+        setAppointments([]);
+        setError('');
         const response = await fetch('https://mario-appointments-server.vercel.app/appointments');
         const json = await response.json();
+        console.log(json.appointments);
         if (response.ok) {
             if (json.appointments && Array.isArray(json.appointments)) {
-                setAppointments(json.appointments);
+                if (json.appointments.length === 0) {
+                    setError('No appointments found')
+                } else {
+                    setAppointments(json.appointments);
+                }
             } else {
                 console.error('Data from server is not in the expected format' + JSON.stringify(json));
             }
         }
     };
     const fetchAppointmentsByDateRange = async (range) => {
+        setAppointments([]);
+        setError('');
         const currentDate = new Date();
         let startDate, endDate;
 
@@ -66,16 +76,28 @@ const Search = () => {
         console.log(json.appointments);
         if (response.ok) {
             if (json.appointments && Array.isArray(json.appointments)) {
-                setAppointments(json.appointments);
+                if (json.appointments.length === 0) {
+                    setError('No appointments found')
+                } else {
+                    setAppointments(json.appointments);
+                }
             } else {
                 console.error('Data from server is not in the expected format' + JSON.stringify(json));
             }
         }
     };
     useEffect(() => {
-        fetchAppointmentsByDateRange(range);
+        if (range === 'today') {
+            fetchAppointmentsByDateRange(range);
+        } else if (range === 'thisWeek') {
+            fetchAppointmentsByDateRange(range);
+        } else if (range === 'thisMonth') {
+            fetchAppointmentsByDateRange(range);
+        } else if (range === 'all') {
+            fetchAppointments();
+        }
         updateAppointments();
-    }, []);
+    }, [range]);
 
     const handleFetchButtonClick = () => {
         if (range !== 'customRange') {
@@ -106,12 +128,13 @@ const Search = () => {
                     <>
                         <input type="date" value={start} onChange={(e) => setStart(e.target.value)} />
                         <label>End Date:</label>
-                        <input type="date" value={end} onChange={(e) => setEnd(e.target.value)} />
+                        <input type="date" value={end} onChange={(e) => setEnd(e.target.value)} /> 
+                        <button style={{ marginRight: '10px', marginBottom: '10px' }} onClick={handleFetchButtonClick}>Fetch Bookings</button>
                     </>
                 )}
             </div>
 
-             <button style={{ marginRight: '10px', marginBottom: '10px' }} onClick={handleFetchButtonClick}>Fetch Bookings</button>
+            
              <Link to={`/search/${username}`}>
                 <button>Custom Search</button>
             </Link>
@@ -122,6 +145,7 @@ const Search = () => {
                     <AppointmentDetails key={appointment._id} appointment={appointment} updateAppointments={updateAppointments} />
                 ))}
             </div>
+            {error && <div className='error'>{error}</div>}
         </div>
     );
 };
