@@ -10,6 +10,7 @@ const Home = () => {
     const [destination, setDestination] = useState('');
     const [username, setUsername] = useState('');
     const [appointments, setAppointments] = useState(null);
+    const [error, setError] = useState(null);
 
     const fetchAppointments = async () => {
         if (field === 'customerName') {
@@ -23,7 +24,12 @@ const Home = () => {
             const json = await response.json();
             if (response.ok) {
                 if (json.appointments && Array.isArray(json.appointments)) {
-                    setAppointments(json.appointments);
+                    console.log(json.appointments)
+                    if (json.appointments.length === 0) {
+                        setError('No appointments found')
+                    }else{
+                        setAppointments(json.appointments);
+                    }
                 } else {
                     console.error('Data from server is not in the expected format' + JSON.stringify(json));
                 }
@@ -39,7 +45,13 @@ const Home = () => {
             const json = await response.json();
             if (response.ok) {
                 if (json.appointments && Array.isArray(json.appointments)) {
-                    setAppointments(json.appointments);
+                    console.log(json.appointments)
+                    if (json.appointments.length === 0) {
+                        setError('No appointments found')
+                    }else{
+                        setAppointments(json.appointments);
+                        setError('')
+                    }
                 } else {
                     console.error('Data from server is not in the expected format' + JSON.stringify(json));
                 }
@@ -55,7 +67,13 @@ const Home = () => {
             const json = await response.json();
             if (response.ok) {
                 if (json.appointments && Array.isArray(json.appointments)) {
-                    setAppointments(json.appointments);
+                    console.log(json.appointments)
+                    if (json.appointments.length === 0) {
+                        setError('No appointments found')
+                    }else{
+                        setAppointments(json.appointments);
+                        setError('')
+                    }
                 } else {
                     console.error('Data from server is not in the expected format' + JSON.stringify(json));
                 }
@@ -71,7 +89,13 @@ const Home = () => {
             const json = await response.json();
             if (response.ok) {
                 if (json.appointments && Array.isArray(json.appointments)) {
-                    setAppointments(json.appointments);
+                    console.log(json.appointments)
+                    if (json.appointments.length === 0) {
+                        setError('No appointments found')
+                    }else{
+                        setAppointments(json.appointments);
+                        setError('')
+                    }
                 } else {
                     console.error('Data from server is not in the expected format' + JSON.stringify(json));
                 }
@@ -126,6 +150,7 @@ const Home = () => {
                     appointments.map(appointment => (
                         <AppointmentDetails key={appointment._id} appointment={appointment} updateAppointments={updateAppointments} />
                     ))}
+                {error && <div className="error">{error}</div>}
             </div>
         </div>
     );

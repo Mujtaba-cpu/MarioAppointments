@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import AppointmentDetails from '../components/AppointmentDetails';
+import { Link, useParams } from 'react-router-dom';
 
 
 const Search = () => {
+    const { username } = useParams();
     const [appointments, setAppointments] = useState([]);
     const [start, setStart] = useState('');
     const [end, setEnd] = useState('');
@@ -94,7 +96,10 @@ const Search = () => {
                 )}
             </div>
 
-             <button style={{ marginRight: '10px' }} onClick={handleFetchButtonClick}>Fetch Bookings</button>
+             <button style={{ marginRight: '10px', marginBottom: '10px' }} onClick={handleFetchButtonClick}>Fetch Bookings</button>
+             <Link to={`/search/${username}`}>
+                <button>Custom Search</button>
+            </Link>
             {/* <button onClick={fetchAppointments}>View All</button> */}
 
             <div className='workouts'>
