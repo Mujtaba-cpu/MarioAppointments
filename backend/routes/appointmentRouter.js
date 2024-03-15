@@ -11,6 +11,9 @@ router.get('/:id', appointmentController.getAppointmentById);
 // Get appointments by date
 router.post('/date', appointmentController.getAppointmentsByDate);
 
+// Get appointments by field
+router.post('/search/:field', appointmentController.getAppointmentsByField);
+
 // Create a new appointment
 router.post('/', appointmentController.createAppointment);
 

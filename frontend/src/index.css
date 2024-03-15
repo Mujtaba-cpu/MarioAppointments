@@ -73,18 +73,20 @@ header a {
   color: #555;
 }
 .appointment-details span {
-  position: absolute;
-  top: 20px;
-  right: 20px;
+  position: centre;
+  bottom: 20px; /* Position from the bottom */
+  left: 50%; /* Position at the horizontal center */
+  transform: translateX(-50%); /* Move the element back by half of its own width to center it horizontally */
   cursor: pointer;
   background: #ffffff;
   padding: 6px;
   border-radius: 50%;
   color: #333;
 }
+
 .appointment-grid {
   display: grid;
-  grid-template-columns: repeat(7, 1fr);
+  grid-template-columns: repeat(5, 1fr);
   gap: 5px;
 
 }
@@ -318,10 +320,11 @@ z-index: 9999; /* Ensure it appears above the modal content */
     font-size: 14px; /* Adjusted for mobile */
   }
 
-  .appointment-details span {
-    top: 15px; /* Adjusted for mobile */
-    right: 15px; /* Adjusted for mobile */
-    padding: 5px; /* Adjusted for mobile */
+  .appointment-details .button-group {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
   }
   .appointment-grid {
     display: grid;

@@ -4,6 +4,7 @@ import AddApointment from './pages/AddApointmnet';
 import Landing from './pages/Landing';
 import Login from './pages/login';
 import Search from './pages/search';
+import Home from './pages/Home';
 
 
 function App() {
@@ -18,7 +19,7 @@ function App() {
             <Route path="/main/:username" element={<Landing />} />
             <Route path="/add-appointment/:username" element={<AddApointment />} />
             <Route path="/appointments/:username" element={<Search />} />
-            <Route path="/search/:username" element={<Search />} />
+            <Route path="/search/:username" element={<Home />} />
           </Routes>
         </div>
       </BrowserRouter>

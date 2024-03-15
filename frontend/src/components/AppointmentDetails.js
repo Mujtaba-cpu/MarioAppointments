@@ -195,14 +195,7 @@ const AppointmentDetails = ({ appointment, updateAppointments }) => {
 
 
 
-                <div className="button-group">
-                    <span>
-                        <button onClick={() => setModalIsOpen(true)}>View Details</button>
-                        <button style={{ marginLeft: '10px' }} onClick={handleEdit} >Edit</button>
-                        <button style={{ marginLeft: '10px' }} onClick={handleClick}>Delete</button>
-                    </span>
-
-                </div>
+                
 
 
                 <Modal isOpen={modalIsOpen} onRequestClose={() => setModalIsOpen(false)}>
@@ -409,6 +402,13 @@ const AppointmentDetails = ({ appointment, updateAppointments }) => {
                 ) : null}
 
             </div>
+            <div className="button-group">
+                    
+                        <button onClick={() => setModalIsOpen(true)}>View Details</button>
+                        <button style={{ marginLeft: '10px' }} onClick={handleEdit} >Edit</button>
+                        <button style={{ marginLeft: '10px' }} onClick={handleClick}>Delete</button>
+                    
+                </div>
             {deleteSuccess && (
                 <div className="success">
                     Booking deleted successfully
