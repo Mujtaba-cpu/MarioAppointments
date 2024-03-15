@@ -45,7 +45,7 @@ const appointmentController = {
     
     const { field , customerName, pickupLocation, destination, username} = req.body;
     if (field === 'customerName') {
-      const appointments = await Appointment.find({ customerName: customerName }).sort({ createdAt: -1 });
+      const appointments = await Appointment.find({ customerName: { $regex: new RegExp(customerName, 'i') } }).sort({ createdAt: -1 });
       res.status(200).json({ appointments });
     } else if (field === 'pickupLocation') {
       const appointments = await Appointment.find({ pickupLocation: pickupLocation }).sort({ createdAt: -1 });
