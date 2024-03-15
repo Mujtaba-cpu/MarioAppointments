@@ -219,7 +219,7 @@ const AppointmentDetails = ({ appointment, updateAppointments }) => {
                         color: '#555',
                         zIndex: '9999', // Ensure it appears above the modal content
                     }} onClick={() => setModalIsOpen(false)}>✖</button>
-                    <h4 style={{ color: '#e96914' }}>{new Date(appointment.pickupDate).toLocaleDateString('en-GB')}</h4>
+                    <h4 style={{ color: '#e96914' }}>{formatDate(appointment.pickupDate)}</h4>
                     {appointment.customerName && (
                         <p>
                             <strong >Customer Name:</strong> {appointment.customerName}
@@ -255,7 +255,7 @@ const AppointmentDetails = ({ appointment, updateAppointments }) => {
                                 <strong>Return Time:</strong> {appointment.returnTime}
                             </p>
                             <p>
-                                <strong>Return Date:</strong> {appointment.returnDate}
+                                <strong>Return Date:</strong> {formatDate(appointment.returnDate)}
                             </p>
                             <p>
                                 <strong>Return Location:</strong> {appointment.returnLocation}
