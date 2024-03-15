@@ -13,13 +13,15 @@ const Home = () => {
     const [error, setError] = useState(null);
 
     const fetchAppointments = async () => {
+        setAppointments(null);
+        setError('');
         if (field === 'customerName') {
             const response = await fetch('https://mario-appointments-server.vercel.app/appointments/search', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ field , customerName }),
+                body: JSON.stringify({ field, customerName }),
             });
             const json = await response.json();
             if (response.ok) {
@@ -27,7 +29,7 @@ const Home = () => {
                     console.log(json.appointments)
                     if (json.appointments.length === 0) {
                         setError('No appointments found')
-                    }else{
+                    } else {
                         setAppointments(json.appointments);
                     }
                 } else {
@@ -48,7 +50,7 @@ const Home = () => {
                     console.log(json.appointments)
                     if (json.appointments.length === 0) {
                         setError('No appointments found')
-                    }else{
+                    } else {
                         setAppointments(json.appointments);
                         setError('')
                     }
@@ -70,7 +72,7 @@ const Home = () => {
                     console.log(json.appointments)
                     if (json.appointments.length === 0) {
                         setError('No appointments found')
-                    }else{
+                    } else {
                         setAppointments(json.appointments);
                         setError('')
                     }
@@ -92,7 +94,7 @@ const Home = () => {
                     console.log(json.appointments)
                     if (json.appointments.length === 0) {
                         setError('No appointments found')
-                    }else{
+                    } else {
                         setAppointments(json.appointments);
                         setError('')
                     }
