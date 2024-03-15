@@ -153,7 +153,7 @@ const AppointmentDetails = ({ appointment, updateAppointments }) => {
         const day = date.getDate();
         const month = date.toLocaleString('default', { month: 'long' });
         const year = date.getFullYear().toString(); // Extract last two digits of the year
-    
+        
         // Function to get the ordinal suffix for the day
         function getOrdinalSuffix(day) {
             if (day >= 11 && day <= 13) {
@@ -166,11 +166,18 @@ const AppointmentDetails = ({ appointment, updateAppointments }) => {
                 default: return 'th';
             }
         }
-    
+        
+        // Function to get the day of the week
+        function getDayOfWeek(date) {
+            return date.toLocaleDateString('en-US', { weekday: 'long' });
+        }
+        
         const ordinalSuffix = getOrdinalSuffix(day);
+        const dayOfWeek = getDayOfWeek(date);
+        
+        return `${dayOfWeek}, ${day}${ordinalSuffix} ${month}, ${year}`;
+    }
     
-        return `${day}${ordinalSuffix} ${month}, ${year}`;
-    };
     
     
     
