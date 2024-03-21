@@ -1,85 +1,85 @@
-const mongoose = require ('mongoose')
+const mongoose = require('mongoose')
 const moment = require('moment');
 
 const appointmentSchema = new mongoose.Schema({
-    numberOfPassengers: {
-      type: Number,
-      required: true,
-    },
-    isReturn: {
-      type: Boolean,
-      required: true,
-    },
-    pickupDate: {
-      type: Date,
+  numberOfPassengers: {
+    type: Number,
     required: true,
-    },
-    pickupTime: {
-      type: String,
-      validate: {
-        validator: function(value) {
-          // Check if the value is a valid time format
-          return moment(value, 'HH:mm', true).isValid();
-        },
-        message: props => `${props.value} is not a valid time format (HH:mm)`,
+  },
+  isReturn: {
+    type: Boolean,
+    required: true,
+  },
+  pickupDate: {
+    type: Date,
+    required: true,
+  },
+  pickupTime: {
+    type: String,
+    validate: {
+      validator: function (value) {
+        // Check if the value is a valid time format
+        return moment(value, 'HH:mm', true).isValid();
       },
-      required: true,
+      message: props => `${props.value} is not a valid time format (HH:mm)`,
     },
-    pickupLocation: {
-      type: String,
-      required: true,
+    required: true,
+  },
+  pickupLocation: {
+    type: String,
+    required: true,
+  },
+  destination: {
+    type: String,
+    required: true,
+  },
+  returnTime: {
+    type: String,
+    required: function () {
+      return this.isReturn;
     },
-    destination: {
-      type: String,
-      required: true,
+  },
+  returnDate: {
+    type: Date,
+    required: function () {
+      return this.isReturn;
     },
-    returnTime: {
-      type: String,
-      required: function () {
-        return this.isReturn;
-      },
+  },
+  returnLocation: {
+    type: String,
+    required: function () {
+      return this.isReturn;
     },
-    returnDate: {
-      type: Date,
-      required: function () {
-        return this.isReturn;
-      },
+  },
+  returnDestination: {
+    type: String,
+    required: function () {
+      return this.isReturn;
     },
-    returnLocation: {
-      type: String,
-      required: function () {
-        return this.isReturn;
-      },
-    },
-    returnDestination: {
-      type: String,
-      required: function () {
-        return this.isReturn;
-      },
-    },
-    contactNumber: {
-      type: String,
-      
-    },
-    adInfo: {
-      type: String,
-    },
-    priceQuote: {
-      type: Number,
-      
-    },
-    email: {
-      type: String,
-      
-    },
-    username: {
-      type: String,
-      required: true,
-    },
-    customerName: {
-      type: String,
-      
-    },
-  });
+  },
+  contactNumber: {
+    type: String,
+
+  },
+  adInfo: {
+    type: String,
+  },
+  priceQuote: {
+    type: Number,
+
+  },
+  email: {
+    type: String,
+
+  },
+  username: {
+    type: String,
+    required: true,
+  },
+  customerName: {
+    type: String,
+
+  },
+}, { timestamps: true })
 
 module.exports = mongoose.model('Appointment', appointmentSchema);

@@ -1,6 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import Modal from 'react-modal';
+import formatDistanceToNow from 'date-fns/formatDistanceToNow'
 
 const AppointmentDetails = ({ appointment, updateAppointments }) => {
     const [deleteSuccess, setDeleteSuccess] = useState(false);
@@ -200,6 +201,7 @@ const AppointmentDetails = ({ appointment, updateAppointments }) => {
                     <strong>Number of Passengers:</strong> <br /> {appointment.numberOfPassengers}
                     
                 </p>
+                <p>{formatDistanceToNow(new Date(appointment.createdAt), { addSuffix: true })}</p>
                 <p/>
 
 
