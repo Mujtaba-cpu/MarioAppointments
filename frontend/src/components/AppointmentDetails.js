@@ -1,7 +1,8 @@
 import React from "react";
 import { useState } from "react";
 import Modal from 'react-modal';
-import formatDistanceToNow from 'date-fns/formatDistanceToNow'
+import { formatDistanceToNow } from 'date-fns';
+
 
 const AppointmentDetails = ({ appointment, updateAppointments }) => {
     const [deleteSuccess, setDeleteSuccess] = useState(false);
@@ -27,7 +28,7 @@ const AppointmentDetails = ({ appointment, updateAppointments }) => {
     const [successMessage, setSuccessMessage] = useState('');
     const [modalIsOpen, setModalIsOpen] = useState(false);
 
-    
+
 
     const handleClick = async () => {
         const response = await fetch(`https://mario-appointments-server.vercel.app/appointments/${appointment._id}`, {
@@ -154,7 +155,7 @@ const AppointmentDetails = ({ appointment, updateAppointments }) => {
         const day = date.getDate();
         const month = date.toLocaleString('default', { month: 'long' });
         const year = date.getFullYear().toString(); // Extract last two digits of the year
-        
+
         // Function to get the ordinal suffix for the day
         function getOrdinalSuffix(day) {
             if (day >= 11 && day <= 13) {
@@ -167,21 +168,21 @@ const AppointmentDetails = ({ appointment, updateAppointments }) => {
                 default: return 'th';
             }
         }
-        
+
         // Function to get the day of the week
         function getDayOfWeek(date) {
             return date.toLocaleDateString('en-US', { weekday: 'long' });
         }
-        
+
         const ordinalSuffix = getOrdinalSuffix(day);
         const dayOfWeek = getDayOfWeek(date);
-        
+
         return `${dayOfWeek}, ${day}${ordinalSuffix} ${month}, ${year}`;
     }
-    
-    
-    
-    
+
+
+
+
 
     return (
         <div className="appointment-details">
@@ -199,14 +200,17 @@ const AppointmentDetails = ({ appointment, updateAppointments }) => {
 
                 <p>
                     <strong>Number of Passengers:</strong> <br /> {appointment.numberOfPassengers}
-                    
                 </p>
-                <p>{formatDistanceToNow(new Date(appointment.createdAt), { addSuffix: true })}</p>
-                <p/>
+                {appointment.createdAt && (
+                    <p>
+                        {formatDistanceToNow(new Date(appointment.createdAt), { addSuffix: true })}
+                    </p>
+                )}
+                <p />
 
 
 
-                
+
 
 
                 <Modal isOpen={modalIsOpen} onRequestClose={() => setModalIsOpen(false)}>
@@ -414,12 +418,12 @@ const AppointmentDetails = ({ appointment, updateAppointments }) => {
 
             </div>
             <div className="button-group">
-                    
-                        <button onClick={() => setModalIsOpen(true)}>View Details</button>
-                        <button style={{ marginLeft: '10px' }} onClick={handleEdit} >Edit</button>
-                        <button style={{ marginLeft: '10px' }} onClick={handleClick}>Delete</button>
-                    
-                </div>
+
+                <button onClick={() => setModalIsOpen(true)}>View Details</button>
+                <button style={{ marginLeft: '10px' }} onClick={handleEdit} >Edit</button>
+                <button style={{ marginLeft: '10px' }} onClick={handleClick}>Delete</button>
+
+            </div>
             {deleteSuccess && (
                 <div className="success">
                     Booking deleted successfully
