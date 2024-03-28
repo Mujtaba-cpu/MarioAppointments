@@ -67,6 +67,7 @@ const Landing = () => {
                 <button>Add Bookings</button>
             </Link>
             <div className='workouts'>
+                <h3>Upcoming Bookings:</h3>
                 {appointments.map(appointment => (
                     <AppointmentDetails key={appointment._id} appointment={appointment} updateAppointments={updateAppointments} />
                 ))}
