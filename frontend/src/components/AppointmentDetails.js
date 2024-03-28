@@ -224,14 +224,15 @@ const AppointmentDetails = ({ appointment, updateAppointments }) => {
                 <p>
                     <strong>Number of Passengers:</strong> <br /> {appointment.numberOfPassengers}
                 </p>
-                {appointment.createdAt && (
-                    <p>
-                        {formatDistanceToNow(new Date(appointment.createdAt), { addSuffix: true })}
-                    </p>
-                )}
+                
                 {appointment.status && (
                     <p>
                         <strong>Status:</strong> {appointment.status}
+                    </p>
+                )}
+                {appointment.createdAt && (
+                    <p>
+                        {formatDistanceToNow(new Date(appointment.createdAt), { addSuffix: true })}
                     </p>
                 )}
                 <p />
@@ -445,24 +446,18 @@ const AppointmentDetails = ({ appointment, updateAppointments }) => {
                 ) : null}
 
             </div>
-            <div className="button-group">
-
+            <div className="admin-button-group">
                 <button onClick={() => setModalIsOpen(true)}>View Details</button>
-                <button style={{ marginLeft: '10px' }} onClick={handleEdit} >Edit</button>
-                <button style={{ marginLeft: '10px' }} onClick={handleClick}>Delete</button>
+                <button  style={{marginLeft: '10px'}} onClick={handleEdit}>Edit</button>
+                <button style={{marginLeft: '10px'}} onClick={handleClick}>Delete</button>
                 {appointment.status === 'pending' && (
-                    <div>
-                        <button style={{ marginLeft: '10px' }} onClick={() =>
-                            handleSetStatus('completed')}>
-                            Close Appointment
-                        </button>
-                        <button style={{ marginLeft: '10px' }} onClick={() =>
-                            handleSetStatus('cancelled')}>
-                            Cancel Appointment
-                        </button>
-                    </div>
+                    <React.Fragment>
+                        <button style={{marginLeft: '10px'}} onClick={() => handleSetStatus('completed')}>Close Appointment</button>
+                        <button style={{marginLeft: '10px'}} onClick={() => handleSetStatus('cancelled')}>Cancel Appointment</button>
+                    </React.Fragment>
                 )}
             </div>
+
             {deleteSuccess && (
                 <div className="success">
                     Booking deleted successfully

@@ -97,7 +97,7 @@ const Search = () => {
             fetchAppointments();
         }
         updateAppointments();
-    }, [range]);
+    }, [range,start,end]);
 
     const handleFetchButtonClick = () => {
         if (range !== 'customRange') {

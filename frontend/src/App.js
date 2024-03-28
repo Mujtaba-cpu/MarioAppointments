@@ -5,6 +5,9 @@ import Landing from './pages/Landing';
 import Login from './pages/login';
 import Search from './pages/search';
 import Home from './pages/Home';
+import Modal from 'react-modal';
+
+Modal.setAppElement('#root');
 
 
 function App() {

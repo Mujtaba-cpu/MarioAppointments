@@ -125,6 +125,27 @@ button:hover{
   background: #869b95;
 }
 
+.admin-button-group {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+}
+.admin-button-group button {
+  white-space: nowrap; /* Adjusted for mobile */
+}
+.admin-button-group label {
+  white-space: nowrap;
+  padding: 10px;
+  font-size: 1em;
+  color: #333;
+  text-align: center;
+ }
+.admin-button-group select {
+  margin-right: 10px;
+  width: 150px;
+}
 /* login form */
 .login-form-container {
   display: flex;
@@ -270,7 +291,7 @@ z-index: 9999; /* Ensure it appears above the modal content */
     display: flex;
     flex-direction: column;
     align-items: center;
-    max-width: 600px;
+    max-width: 350px;
     padding: 10px;
     margin: 0 auto;
   }
@@ -288,11 +309,24 @@ z-index: 9999; /* Ensure it appears above the modal content */
   .container h6 {
     font-size: 10px;
   }
+  .workouts{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    
+
+  }
+  .appointment-details{
+    width: 250px;
+  }
+
+  
+  
   input {
     padding: 10px;
     margin-top: 10px;
     margin-bottom: 20px;
-    width: 300px;
+    width: 250px;
     border: 1px solid #ddd;
     border-radius: 4px;
     box-sizing: border-box;
@@ -319,12 +353,23 @@ z-index: 9999; /* Ensure it appears above the modal content */
   .appointment-details p {
     font-size: 14px; /* Adjusted for mobile */
   }
-
-  .appointment-details .button-group {
-    display: flex;
-    flex-direction: row;
+  .admin-button-group {
+    flex-direction: column;
     align-items: center;
-    justify-content: space-around;
+    justify-content: center;
+    margin: auto;
+  }
+
+  .admin-button-group button,
+  .admin-button-group select,
+  .admin-button-group label {
+    margin: 5px 0; /* Add some vertical spacing between elements */
+    width: calc(100% - 20px); /* Make elements full width with some spacing */
+  }
+
+  .admin-button-group select {
+    width: 100%; /* Full width for select element */
+    margin-right: 0; /* Remove right margin */
   }
   .appointment-details .button-group button {
     white-space: nowrap; /* Adjusted for mobile */
