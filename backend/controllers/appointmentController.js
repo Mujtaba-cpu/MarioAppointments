@@ -1,5 +1,16 @@
+require('dotenv').config();
 const Appointment = require('../models/appointmentModel');
 const mongoose = require('mongoose');
+const nodemailer = require('nodemailer');
+
+let transporter = nodemailer.createTransport({
+  service: 'gmail',
+  host: 'smtp.gmail.com',
+  auth: {
+    user: process.env.SMTP_EMAIL,
+    pass: process.env.SMTP_PASSWORD,
+  },
+});
 
 
 const appointmentController = {
@@ -42,8 +53,8 @@ const appointmentController = {
 
   //get appointments by a specific field
   async getAppointmentsByField(req, res) {
-    
-    const { field , customerName, pickupLocation, destination, username} = req.body;
+
+    const { field, customerName, pickupLocation, destination, username } = req.body;
     if (field === 'customerName') {
       const appointments = await Appointment.find({ customerName: { $regex: new RegExp(customerName, 'i') } }).sort({ createdAt: -1 });
       res.status(200).json({ appointments });
@@ -68,7 +79,7 @@ const appointmentController = {
     const { numberOfPassengers, isReturn, pickupDate, pickupTime, pickupLocation, destination, returnTime, returnDate,
       returnLocation, returnDestination, contactNumber, adInfo, priceQuote, email, username, customerName } = req.body;
 
-
+    const status = 'pending';
     let emptyFields = [];
     if (typeof isReturn === 'undefined') emptyFields.push('isReturn');
     if (!numberOfPassengers) emptyFields.push('numberOfPassengers');
@@ -91,7 +102,7 @@ const appointmentController = {
     }
 
     try {
-      const appointment = await Appointment.create({ numberOfPassengers, isReturn, pickupDate, pickupTime, pickupLocation, destination, returnTime, returnDate, returnLocation, returnDestination, contactNumber, adInfo, priceQuote, email, username, customerName});
+      const appointment = await Appointment.create({ numberOfPassengers, isReturn, pickupDate, pickupTime, pickupLocation, destination, returnTime, returnDate, returnLocation, returnDestination, contactNumber, adInfo, priceQuote, email, username, customerName, status });
       res.status(200).json({ appointment });
     } catch (err) {
       res.status(400).json({ error: err.message });
@@ -154,7 +165,59 @@ const appointmentController = {
     }
 
     res.status(200).json({ appointment });
-  }
+  },
+
+  //change appointment status
+  async changeAppointmentStatus(req, res) {
+    const { id } = req.params;
+    const { status } = req.body;
+
+
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(404).json({ error: 'Invalid Id' });
+    }
+
+    const appointment = await Appointment.findOneAndUpdate({ _id: id }, { status }, { new: true });
+    console.log(appointment);
+
+    const mailOptions = {
+      from: process.env.SMTP_EMAIL,
+      to: 'sheriar@computersupportcentre.com',
+      subject: 'Appointment Status Update',
+      text: `Appointment Status has been changed to: ${status}\n\n` +
+      `Customer Name: ${appointment.customerName || 'N/A'}\n` +
+      `Date: ${appointment.pickupDate || 'N/A'}\n` +
+      `Time: ${appointment.pickupTime || 'N/A'}\n` +
+      `Pickup Location: ${appointment.pickupLocation || 'N/A'}\n` +
+      `Destination: ${appointment.destination || 'N/A'}\n` +
+      `Return Time: ${appointment.returnTime || 'N/A'}\n` +
+      `Return Date: ${appointment.returnDate || 'N/A'}\n` +
+      `Return Location: ${appointment.returnLocation || 'N/A'}\n` +
+      `Return Destination: ${appointment.returnDestination || 'N/A'}\n` +
+      `Contact Number: ${appointment.contactNumber || 'N/A'}\n` +
+      `Additional Info: ${appointment.adInfo || 'N/A'}\n` +
+      `Price Quote: ${appointment.priceQuote || 'N/A'}\n` +
+      `Email: ${appointment.email || 'N/A'}\n` +
+      `Username: ${appointment.username || 'N/A'}\n`
+    };
+
+    if (!appointment) {
+      return res.status(400).json({ error: 'Appointmnet not found' });
+    }
+
+    res.status(200).json(appointment);
+
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        console.log("Error sending email:", error);
+        res.status(500).send("Error"); // Handle error response
+      } else {
+        console.log('Email sent:', info.response);
+        res.send("Email sent"); // Send success response
+      }
+    });
+  },
 }
 
 

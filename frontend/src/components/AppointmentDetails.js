@@ -30,6 +30,29 @@ const AppointmentDetails = ({ appointment, updateAppointments }) => {
 
 
 
+    const handleSetStatus = async (newStatus) => {
+        const response = await fetch(`https://mario-appointments-server.vercel.app/appointments/${appointment._id}/status`, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                status: newStatus
+            })
+        });
+        if (response.ok) {
+            updateAppointments();
+            setSuccessMessage('Status updated successfully');
+            setTimeout(() => {
+                setSuccessMessage('');
+            }, 5000);
+        } else {
+            setError('Failed to update status');
+        }
+    };
+
+
+
     const handleClick = async () => {
         const response = await fetch(`https://mario-appointments-server.vercel.app/appointments/${appointment._id}`, {
             method: 'DELETE'
@@ -204,6 +227,11 @@ const AppointmentDetails = ({ appointment, updateAppointments }) => {
                 {appointment.createdAt && (
                     <p>
                         {formatDistanceToNow(new Date(appointment.createdAt), { addSuffix: true })}
+                    </p>
+                )}
+                {appointment.status && (
+                    <p>
+                        <strong>Status:</strong> {appointment.status}
                     </p>
                 )}
                 <p />
@@ -422,7 +450,18 @@ const AppointmentDetails = ({ appointment, updateAppointments }) => {
                 <button onClick={() => setModalIsOpen(true)}>View Details</button>
                 <button style={{ marginLeft: '10px' }} onClick={handleEdit} >Edit</button>
                 <button style={{ marginLeft: '10px' }} onClick={handleClick}>Delete</button>
-
+                {appointment.status === 'pending' && (
+                    <div>
+                        <button style={{ marginLeft: '10px' }} onClick={() =>
+                            handleSetStatus('completed')}>
+                            Close Appointment
+                        </button>
+                        <button style={{ marginLeft: '10px' }} onClick={() =>
+                            handleSetStatus('cancelled')}>
+                            Cancel Appointment
+                        </button>
+                    </div>
+                )}
             </div>
             {deleteSuccess && (
                 <div className="success">
