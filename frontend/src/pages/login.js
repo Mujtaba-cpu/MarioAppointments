@@ -15,7 +15,7 @@ const Login = () => {
         if ((username.toLowerCase() === 'admin' && password === 'CSCuser1?123')
             || (username.toLowerCase() === 'anna' && password === 'anna123')
             || (username.toLowerCase() === 'nasir' && password === 'nasir123')
-            || (username.toLowerCase() === 'sheriar' && password === 'sheriar123')
+            || (username.toLowerCase() === 'sheriar' && password === 'Sheriar?123')
             || (username.toLowerCase() === 'yasir' && password === 'yasir123')
             ) {
             // Login successful
